@@ -19,7 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: withastro/action@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # npm install (not ci) so a missing lockfile can never fail the build
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build site
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
