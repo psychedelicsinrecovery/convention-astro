@@ -1,0 +1,158 @@
+---
+// Every Convention page. Built on the same pattern as the AstroLog: PIR's shared arrival kit and
+// A.L.E.X. design system are loaded from the hub, and this site's own layer is /convention.css.
+// The kit's site config is overridden below (window.ARRIVAL_SITE) so the navbar and footer belong
+// to the Convention, the same way the desk portals swap theirs in before the kit runs.
+interface Props {
+  title: string;
+  description: string;
+  active?: "overview" | "gallery" | "events" | "lost";
+  pageClass?: string;
+  splash?: boolean;
+  ogImage?: string;
+  ogAlt?: string;
+}
+const { title, description, active, pageClass = "", splash = true } = Astro.props as Props;
+const base = import.meta.env.BASE_URL;
+const siteUrl = "https://psychedelicsinrecovery.github.io";
+const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const socialImage = Astro.props.ogImage ?? `${siteUrl}${base}/social-card.jpg`;
+const socialAlt =
+  Astro.props.ogAlt ??
+  "The Inaugural PIR® Convention: the fellowship's mark over a Denver night sky with glowing mushrooms.";
+const WP = "https://www.psychedelicsinrecovery.org";
+
+const ALEX = "/alex-desk-public/assets";
+const HUB = siteUrl;
+const KIT = `${HUB}/arrival`;
+const FONTS =
+  "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap";
+const ic = (name: string) => `<i class="ph-fill ph-${name}" aria-hidden="true"></i>`;
+const current = active && active !== "lost" ? active : undefined;
+---
+
+<!doctype html>
+<html lang="en" data-arrival-site="convention" data-arrival-splash={splash ? undefined : "off"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#06050e" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:site_name" content="PIR® Convention" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={FONTS} />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+    <!-- The kit override: the Convention's own navbar and footer, read by the kit before it runs. -->
+    <script is:inline>
+      window.ARRIVAL_SITE = {
+        name: "the PIR® Convention site",
+        what: "This is the Convention home of Psychedelics In Recovery™ – PIR®: the story of each gathering, the photo gallery, and what is coming next.",
+        nav: {
+          label: "Convention",
+          items: [
+            { id: "overview", label: "Overview", icon: "confetti", href: "/convention-astro/", exact: true, priority: 1 },
+            { id: "gallery", label: "Gallery", icon: "image", href: "/convention-astro/gallery", priority: 2 },
+            { id: "events", label: "Events", icon: "calendar-blank", href: "/convention-astro/events", priority: 2 },
+            { id: "schedule", label: "Schedule", icon: "list-checks", href: "https://www.psychedelicsinrecovery.org/convention-2026-schedule/", priority: 2 },
+            { id: "live", label: "Live Stream", icon: "video-camera", href: "https://www.psychedelicsinrecovery.org/convention-live-stream/", priority: 3 },
+            { id: "committee", label: "Committee", icon: "hand-heart", href: "https://service.psychedelicsinrecovery.org/convention-committee/", priority: 3 },
+          ],
+        },
+        footer: {
+          label: "The Convention, all the ways around",
+          groups: [
+            { label: "This gathering", icon: "confetti", items: [
+              { id: "overview", label: "Overview", icon: "confetti", href: "/convention-astro/" },
+              { id: "gallery", label: "Photo gallery", icon: "image", href: "/convention-astro/gallery" },
+              { id: "events", label: "Past & upcoming", icon: "calendar-blank", href: "/convention-astro/events" },
+            ]},
+            { label: "On the WordPress site", icon: "globe", items: [
+              { id: "landing", label: "Convention page", icon: "globe", href: "https://www.psychedelicsinrecovery.org/convention-2026/" },
+              { id: "schedule", label: "Schedule & program", icon: "list-checks", href: "https://www.psychedelicsinrecovery.org/convention-2026-schedule/" },
+              { id: "live", label: "Live stream", icon: "video-camera", href: "https://www.psychedelicsinrecovery.org/convention-live-stream/" },
+            ]},
+            { label: "Get involved", icon: "hand-heart", items: [
+              { id: "committee", label: "Convention Committee", icon: "hand-heart", href: "https://service.psychedelicsinrecovery.org/convention-committee/" },
+              { id: "donate", label: "7th Tradition", icon: "coins", href: "https://www.psychedelicsinrecovery.org/7th-tradition/" },
+              { id: "astrolog", label: "The AstroLog", icon: "clock-counter-clockwise", href: "https://psychedelicsinrecovery.github.io/changelog-astro-public/" },
+            ]},
+            { label: "About", icon: "info", items: [
+              { id: "portal", label: "PIR® on GitHub", icon: "house", href: "https://psychedelicsinrecovery.github.io" },
+              { id: "servicesite", label: "Service site", icon: "wrench", href: "https://service.psychedelicsinrecovery.org" },
+              { id: "crisis", label: "Crisis resources", icon: "lifebuoy", href: "https://www.psychedelicsinrecovery.org/crisis-resources/" },
+            ]},
+          ],
+        },
+      };
+    </script>
+    <link rel="stylesheet" href={`${KIT}/arrival.css`} />
+    <link rel="stylesheet" href={`${KIT}/org.css`} />
+    <script is:inline src={`${KIT}/org.js`}></script>
+    <script is:inline src={`${KIT}/arrival.js`}></script>
+    <link rel="stylesheet" href={`${ALEX}/alex.css`} />
+    <link rel="stylesheet" href={`${base}/convention.css`} />
+  </head>
+  <body class={pageClass}>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="progress" aria-hidden="true"></div>
+    <canvas id="starfield-canvas" aria-hidden="true"></canvas>
+    <header class="top">
+      <div class="wrap">
+        <a class="brand" href={`${base}/`} aria-label="PIR® Convention, overview">
+          <img src={`${base}/favicon.svg`} alt="" width="34" height="34" />
+          <span class="arr-brand-text"><span class="word">Convention</span> <small>PIR®</small></span>
+        </a>
+        <arrival-nav current={current}></arrival-nav>
+        <arrival-controls></arrival-controls>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer>
+      <div class="wrap pir-foot">
+        <div>
+          <a class="brand" href={`${base}/`} style="margin-bottom:.6rem"><img src={`${base}/favicon.svg`} alt="" width="34" height="34" />Convention</a>
+          <span>The gatherings of Psychedelics In Recovery™ – PIR® — where we have been, and where we are going next.</span>
+          <a class="tended" href={`${HUB}/catalyst-desk-public/`}><span class="cat-mark" aria-hidden="true"></span>Tended by <b>C.A.T.A.L.Y.S.T.</b>, PIR®'s helper fleet</a>
+        </div>
+        <arrival-footer current={current}></arrival-footer>
+      </div>
+    </footer>
+
+    <nav class="dock" aria-label="Quick links">
+      <div class="wrap">
+        <span class="mark">PIR®</span>
+        <a href={`${base}/`} aria-current={active === "overview" ? "page" : undefined}><Fragment set:html={ic("confetti")} /><span class="lg">Overview</span><span class="sm">Home</span></a>
+        <a href={`${base}/gallery`} aria-current={active === "gallery" ? "page" : undefined}><Fragment set:html={ic("image")} />Gallery</a>
+        <a href={`${WP}/convention-2026-schedule/`} target="_blank" rel="noopener"><Fragment set:html={ic("list-checks")} /><span class="lg">Schedule</span><span class="sm">Program</span></a>
+        <a href={`${WP}/convention-live-stream/`} target="_blank" rel="noopener"><Fragment set:html={ic("video-camera")} /><span class="lg">Live stream</span><span class="sm">Watch</span></a>
+        <a href={`${base}/events`} aria-current={active === "events" ? "page" : undefined}><Fragment set:html={ic("calendar-blank")} />Events</a>
+        <a class="end" href="https://discord.gg/MyprTq8w95" data-arrival-open="community"><Fragment set:html={ic("users-three")} /><span class="lg">Community</span><span class="sm">Discord</span></a>
+      </div>
+    </nav>
+
+    <script is:inline src={`${HUB}/starfield.js`} defer></script>
+    <script is:inline src="/alex-desk-public/assets/alex.js" defer></script>
+  </body>
+</html>
