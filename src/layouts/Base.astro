@@ -21,6 +21,7 @@ const socialAlt =
   Astro.props.ogAlt ??
   "The Inaugural PIR® Convention: the fellowship's mark over a Denver night sky with glowing mushrooms.";
 const WP = "https://www.psychedelicsinrecovery.org";
+const HUB_PAGE = WP + "/convention-hub/";
 
 const ALEX = "/alex-desk-public/assets";
 const HUB = siteUrl;
@@ -85,6 +86,7 @@ const current = active && active !== "lost" ? active : undefined;
               { id: "events", label: "Past & upcoming", icon: "calendar-blank", href: "/convention-astro/events" },
             ]},
             { label: "On the WordPress site", icon: "globe", items: [
+              { id: "hub", label: "Convention Hub", icon: "globe", href: "https://www.psychedelicsinrecovery.org/convention-hub/" },
               { id: "landing", label: "Convention page", icon: "globe", href: "https://www.psychedelicsinrecovery.org/convention-2026/" },
               { id: "schedule", label: "Schedule & program", icon: "list-checks", href: "https://www.psychedelicsinrecovery.org/convention-2026-schedule/" },
               { id: "live", label: "Live stream", icon: "video-camera", href: "https://www.psychedelicsinrecovery.org/convention-live-stream/" },
@@ -145,6 +147,7 @@ const current = active && active !== "lost" ? active : undefined;
         <span class="mark">PIR®</span>
         <a href={`${base}/`} aria-current={active === "overview" ? "page" : undefined}><Fragment set:html={ic("confetti")} /><span class="lg">Overview</span><span class="sm">Home</span></a>
         <a href={`${base}/gallery`} aria-current={active === "gallery" ? "page" : undefined}><Fragment set:html={ic("image")} />Gallery</a>
+        <a href={`${HUB_PAGE}`}><Fragment set:html={ic("globe")} /><span class="lg">Hub</span><span class="sm">Hub</span></a>
         <a href={`${WP}/convention-2026-schedule/`} target="_blank" rel="noopener"><Fragment set:html={ic("list-checks")} /><span class="lg">Schedule</span><span class="sm">Program</span></a>
         <a href={`${WP}/convention-live-stream/`} target="_blank" rel="noopener"><Fragment set:html={ic("video-camera")} /><span class="lg">Live stream</span><span class="sm">Watch</span></a>
         <a href={`${base}/events`} aria-current={active === "events" ? "page" : undefined}><Fragment set:html={ic("calendar-blank")} />Events</a>

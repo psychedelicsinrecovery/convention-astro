@@ -31,6 +31,7 @@ const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
           <div class="gallery-side">
             <a class="btn primary" href={links.pixieset.href} target="_blank" rel="noopener"><i class="ph-fill ph-image"></i> Open the Pixieset album</a>
             <a class="btn" href="https://drive.google.com/drive/folders/1zUL1fHkDlWJLKrtHzfToceFoFl-PiTu?usp=sharing" target="_blank" rel="noopener"><i class="ph-fill ph-upload-simple"></i> Contribute your photos (Drive)</a>
+            <a class="btn" href={galleryApp}><i class="ph-fill ph-images"></i> The fellowship's gallery</a>
             <p class="consent">{convention.photosNote}</p>
           </div>
         </div>
@@ -39,11 +40,28 @@ const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
 
     <section class="band">
       <div class="wrap">
-        <div class="band-head"><h2>Our own album, on GitHub</h2><span class="rule"></span><a href={galleryApp} target="_blank" rel="noopener">Open the app ↗</a></div>
-        <p class="lede">
-          Alongside Pixieset, the fellowship is building its own gallery at
-          <a href={galleryApp}>psychedelicsinrecovery.github.io/gallery</a> — the same photos, ours
-          to keep, served straight from the repository, ready for every convention to come.
+        <div class="band-head"><h2>How the galleries came to be</h2><span class="rule"></span><a href={galleryApp} target="_blank" rel="noopener">The fellowship's gallery ↗</a></div>
+        <div class="bento">
+          <article class="hl">
+            <i class="ph-fill ph-chat-circle-dots"></i>
+            <h3>A WhatsApp request went rogue</h3>
+            <p>It began as a simple favor: put Anne R.'s Pixieset album on gallery.psychedelicsinrecovery.org — without sharing a single password. One thread later, the whole thing had grown legs.</p>
+          </article>
+          <article class="hl">
+            <i class="ph-fill ph-google-photos-logo"></i>
+            <h3>A Drive folder gathered the photos</h3>
+            <p>A shared Google Drive folder became the gathering basket: photos from every corner of the Convention, dropped in by members who were there.</p>
+          </article>
+          <article class="hl">
+            <i class="ph-fill ph-images"></i>
+            <h3>The fellowship built a gallery of its own</h3>
+            <p>And then a decision: the photos of our recovery deserve a home we own. The PIR® Gallery lives on GitHub — every album the fellowship makes, kept on its own ground.</p>
+          </article>
+        </div>
+        <p class="lede" style="margin-top:1rem">
+          The Convention album is the gallery's first — its featured album — and this site is its
+          Astro home. Explore the whole collection, and the walkthrough for adding your own photos,
+          at <a href={galleryApp} style="color:inherit">psychedelicsinrecovery.github.io/gallery</a>.
         </p>
       </div>
     </section>
