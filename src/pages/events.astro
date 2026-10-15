@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import { events, links } from "../data/convention";
+const statusLabel = { past: "Past", future: "Coming" };
+---
+
+<Base
+  title={`Events · PIR® Conventions`}
+  description="Past and upcoming PIR® events — from the Inaugural Convention in Denver 2026 to whatever the fellowship gathers next."
+  active="events"
+>
+  <div class="pir-conv">
+    <section class="hero">
+      <div class="wrap">
+        <span class="kicker"><i class="ph-fill ph-calendar-blank"></i> Then, now, next</span>
+        <h1>Past & upcoming events</h1>
+        <p class="lede">
+          Every gathering leaves a record here. When the fellowship announces the next one, it lands
+          below and on the <a href={links.events.href} target="_blank" rel="noopener" style="color:inherit">WordPress events calendar</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <div class="events">
+          {events.map((e) => (
+            <article class="event" data-status={e.status}>
+              <span class="dot" aria-hidden="true"></span>
+              <div class="card">
+                <span class="e-kind">{e.kind} · {statusLabel[e.status]}</span>
+                <h3>{e.title}</h3>
+                <div><span class="e-when">{e.when}</span> · <span class="e-where">{e.where}</span></div>
+                <p>{e.body}</p>
+                {e.hrefs.length > 0 && (
+                  <div class="e-links">
+                    {e.hrefs.map((l) => (
+                      <a href={l.href} target="_blank" rel="noopener"><i class="ph-fill ph-arrow-up-right"></i> {l.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
