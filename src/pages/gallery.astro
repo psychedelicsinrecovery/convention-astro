@@ -2,6 +2,14 @@
 import Base from "../layouts/Base.astro";
 import { convention, links } from "../data/convention";
 const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
+const tiles = [
+  ["The opening ceremony", "tile-1"],
+  ["Panels & speakers", "tile-2"],
+  ["The first hug in person", "tile-3"],
+  ["Candlelight meetings", "tile-4"],
+  ["Art & creativity", "tile-5"],
+  ["Fellowship dinners", "tile-6"],
+];
 ---
 
 <Base
@@ -10,17 +18,36 @@ const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
   active="gallery"
 >
   <div class="pir-conv">
-    <section class="hero">
+    <section class="hero compact">
       <div class="wrap">
         <span class="kicker"><i class="ph-fill ph-image"></i> Shared with consent</span>
         <h1>The Convention Gallery</h1>
         <p class="lede">
-          The fellowship's photos from Denver — browsable, downloadable, and cared for. Until the
-          album lands here in full, Anne R.'s shared Pixieset album is live below, and adding your
-          own photos takes one link.
+          The fellowship's photos from Denver — browsable, downloadable, and cared for. A
+          temporary Pixieset album is live below while the fellowship's own gallery fills in.
         </p>
       </div>
     </section>
+
+    <!-- The marquee: what the albums will hold, looping gently. -->
+    <div class="conv-marquee" aria-label="A scrolling preview of the moments the albums will hold">
+      <div class="conv-marquee-label">In the albums, moments like these</div>
+      <p class="conv-marquee-note">Illustrated previews — as albums come in, real photos take their places here.</p>
+      <div class="conv-track">
+        {tiles.map(([cap, tile]) => (
+          <figure class="conv-tile">
+            <img src={`/convention-astro/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
+            <figcaption>{cap}</figcaption>
+          </figure>
+        ))}
+        {tiles.map(([cap, tile]) => (
+          <figure class="conv-tile">
+            <img src={`/convention-astro/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
+            <figcaption>{cap}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
 
     <section class="band">
       <div class="wrap">
@@ -31,6 +58,7 @@ const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
           <div class="gallery-side">
             <a class="btn primary" href={links.pixieset.href} target="_blank" rel="noopener"><i class="ph-fill ph-image"></i> Open the Pixieset album</a>
             <a class="btn" href={galleryApp + "walkthrough.html"}><i class="ph-fill ph-map-trifold"></i> Add your photos — the walkthrough</a>
+            <a class="btn" href="https://drive.google.com/drive/folders/1zUL1fHkDIWJLKrtHzfFToceFoFl-PiTu?usp=sharing" target="_blank" rel="noopener"><i class="ph-fill ph-upload-simple"></i> Upload to the Drive folder</a>
             <a class="btn" href={galleryApp}><i class="ph-fill ph-images"></i> The fellowship's gallery</a>
             <p class="consent">{convention.photosNote}</p>
           </div>

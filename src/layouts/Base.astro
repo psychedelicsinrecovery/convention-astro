@@ -73,8 +73,15 @@ const current = active && active !== "lost" ? active : undefined;
     <script is:inline src={`${KIT}/org.js`}></script>
     <script is:inline src={`${KIT}/arrival.js`}></script>
     <link rel="stylesheet" href={`${ALEX}/alex.css`} />
-    <link rel="stylesheet" href={`${base}/convention.css`} />
-    <link rel="stylesheet" href={`${base}/convention-chrome.css`} />
+    <link rel="stylesheet" href={`${base}/convention.css?v=2`} />
+    <link rel="stylesheet" href={`${base}/convention-chrome.css?v=2`} />
+    <script is:inline>
+      // The thin scroll-progress line under the header.
+      addEventListener("scroll", function () {
+        var d = document.documentElement, p = document.querySelector(".progress");
+        if (p) p.style.width = Math.round((d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight)) * 100) + "%";
+      }, { passive: true });
+    </script>
   </head>
   <body class={pageClass}>
     <a class="skip" href="#main">Skip to content</a>
@@ -101,6 +108,7 @@ const current = active && active !== "lost" ? active : undefined;
           <a class="brand" href={`${base}/`} style="margin-bottom:.6rem"><img src={`${base}/favicon.svg`} alt="" width="34" height="34" />Convention</a>
           <span>The gatherings of Psychedelics In Recovery™ – PIR® — where we have been, and where we are going next.</span>
           <a class="tended" href={`${HUB}/catalyst-desk-public/`}><span class="cat-mark" aria-hidden="true"></span>Tended by <b>C.A.T.A.L.Y.S.T.</b>, PIR®'s helper fleet</a>
+          <a class="tended" href={`${HUB}/`}><i class="ph-fill ph-house" aria-hidden="true" style="color:#e8b45a"></i> PIR®'s entry portal on GitHub</a>
         </div>
         <arrival-footer current={current}></arrival-footer>
       </div>
