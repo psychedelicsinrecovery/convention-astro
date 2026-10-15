@@ -118,3 +118,26 @@ nav.dock a[aria-current="page"] { color: #17120a; background: linear-gradient(12
 nav.dock .end { margin-left: auto; }
 nav.dock .sm { display: none; }
 @media (max-width: 720px) { nav.dock .lg { display: none; } nav.dock .sm { display: inline; } }
+
+/* ---- Centered heroes (suite preference, 2026-10-15) ---- */
+.pir-conv .hero { text-align: center; }
+.pir-conv .hero .kicker { margin-inline: auto; }
+.pir-conv .hero .lede { margin-inline: auto; }
+.pir-conv .hero-facts,
+.pir-conv .hero-cta { justify-content: center; }
+
+/* ---- The loud galleries CTA ---- */
+.pir-conv .btn.gallery-cta {
+  background: linear-gradient(120deg, #e8b45a, #a78bfa);
+  color: #17120a;
+  border-color: transparent;
+  font-weight: 700;
+  animation: cv-glow 2.8s ease-in-out infinite;
+}
+.pir-conv .btn.gallery-cta:hover { color: #17120a; border-color: transparent; }
+.pir-conv .btn.gallery-cta .ph-arrow-right { transition: transform 0.18s ease; }
+.pir-conv .btn.gallery-cta:hover .ph-arrow-right { transform: translateX(4px); }
+@keyframes cv-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 180, 90, 0.0); }
+  50% { box-shadow: 0 0 22px 0 rgba(232, 180, 90, 0.35); }
+}

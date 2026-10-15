@@ -90,6 +90,16 @@ export const highlights = [
     title: "Scholarships carried people here",
     body: "A virtual pass and a scholarship fund (with an Etheridge Foundation match) meant cost was never the reason to miss the circle.",
   },
+  {
+    icon: "images",
+    title: "The gallery is growing",
+    body: "Photos from Denver are being gathered into the fellowship's own gallery — kept on GitHub, free and permanent, credited first name and last initial. Add yours from any browser with the walkthrough.",
+  },
+  {
+    icon: "calendar-blank",
+    title: "The story continues in 2027",
+    body: "The Inaugural was not a one-off — it was the first page of a tradition. The 2027 Convention is to be announced, and this site will carry its story as it takes shape.",
+  },
 ];
 
 // The ways around, for the cross-links the WordPress hub page and this site share.
