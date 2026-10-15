@@ -5,19 +5,55 @@
 
 Zero dependencies beyond Pillow (pip install pillow). Draws the night-sky cards
 in the fellowship's palette so the images stay reproducible and editable.
+Fonts are looked up per platform (macOS / Windows / Linux) with a graceful
+degradation to Pillow's bundled default so the script never hard-fails.
 """
+import os
 import random
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-SERIF_B = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
-SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-SANS_B = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-
 TM = "\u2122"
 RM = "\u00ae"
 TM_LINE = f"Psychedelics In Recovery{TM} \u2013 PIR{RM}"
+
+# Cross-platform font candidates, best first.
+_SERIF_B_CANDS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+    "/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf",
+    "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+    "/Library/Fonts/Times New Roman Bold.ttf",
+    "C:/Windows/Fonts/timesbd.ttf",
+]
+_SERIF_CANDS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+    "/System/Library/Fonts/Supplemental/Times New Roman.ttf",
+    "/System/Library/Fonts/Supplemental/Georgia.ttf",
+    "/Library/Fonts/Times New Roman.ttf",
+    "C:/Windows/Fonts/times.ttf",
+]
+_SANS_CANDS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    "/System/Library/Fonts/Supplemental/Arial.ttf",
+    "/Library/Fonts/Arial.ttf",
+    "C:/Windows/Fonts/arial.ttf",
+]
+_SANS_B_CANDS = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+    "/Library/Fonts/Arial Bold.ttf",
+    "C:/Windows/Fonts/arialbd.ttf",
+]
+
+
+def _font(cands, size):
+    for p in cands:
+        if os.path.exists(p):
+            try:
+                return ImageFont.truetype(p, size)
+            except OSError:
+                continue
+    return ImageFont.load_default()
 
 
 def sky(w, h, seed, glows, stars=420):
@@ -84,10 +120,10 @@ def social_card(path):
     mushroom(img, d, 860, 595, 30, 34, (232, 180, 90))
     mushroom(img, d, 1090, 600, 26, 30, (167, 139, 250))
     d.line([(760, 600), (1200, 600)], fill=(60, 50, 84), width=2)
-    ser = ImageFont.truetype(SERIF_B, 66)
-    ser_i = ImageFont.truetype(SERIF, 30)
-    san = ImageFont.truetype(SANS, 26)
-    sanb = ImageFont.truetype(SANS_B, 24)
+    ser = _font(_SERIF_B_CANDS, 66)
+    ser_i = _font(_SERIF_CANDS, 30)
+    san = _font(_SANS_CANDS, 26)
+    sanb = _font(_SANS_B_CANDS, 24)
     x0, y0 = 84, 92
     d.rectangle([x0, y0 - 4, x0 + 52, y0 + 2], fill=(232, 180, 90))
     d.text((x0, y0 + 18), "THE INAUGURAL", font=sanb, fill=(232, 180, 90))
@@ -106,9 +142,9 @@ def gallery_cover(path):
     mushroom(img, d, 760, 700, 70, 80, (167, 139, 250))
     mushroom(img, d, 450, 720, 56, 64, (232, 180, 90))
     d.line([(260, 720), (1000, 720)], fill=(64, 52, 88), width=3)
-    ser = ImageFont.truetype(SERIF_B, 56)
-    san = ImageFont.truetype(SANS, 26)
-    sanb = ImageFont.truetype(SANS_B, 22)
+    ser = _font(_SERIF_B_CANDS, 56)
+    san = _font(_SANS_CANDS, 26)
+    sanb = _font(_SANS_B_CANDS, 22)
     d.text((90, 120), "THE INAUGURAL", font=sanb, fill=(232, 180, 90))
     d.text((84, 152), f"PIR{RM} Convention", font=ser, fill=(243, 238, 228))
     d.text((90, 240), "Denver, Colorado \u00b7 October 8-11, 2026", font=san, fill=(200, 192, 175))
@@ -117,7 +153,6 @@ def gallery_cover(path):
 
 
 if __name__ == "__main__":
-    import os
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     pub = os.path.join(here, "public")
     social_card(os.path.join(pub, "social-card.jpg"))

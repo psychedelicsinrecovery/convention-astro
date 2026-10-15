@@ -1,9 +1,8 @@
 ---
 // Every Convention page. Built on the same pattern as the AstroLog: PIR's shared arrival kit and
-// A.L.E.X. design system are loaded from the hub, and this site's own layer is /convention.css.
-// window.ARRIVAL_SITE carries only this site's name/what (that is what the kit reads per site);
-// the navbar and footer come from the org-level kit config, which is what makes every PIR
-// GitHub site feel like one suite.
+// A.L.E.X. design system are loaded from the hub, this site's own layer is /convention.css, and
+// /convention-chrome.css carries the unscoped chrome (the header, footer, dock and starfield
+// canvas live outside .pir-conv). window.ARRIVAL_SITE registers this site's name/what with the kit.
 interface Props {
   title: string;
   description: string;
@@ -75,6 +74,7 @@ const current = active && active !== "lost" ? active : undefined;
     <script is:inline src={`${KIT}/arrival.js`}></script>
     <link rel="stylesheet" href={`${ALEX}/alex.css`} />
     <link rel="stylesheet" href={`${base}/convention.css`} />
+    <link rel="stylesheet" href={`${base}/convention-chrome.css`} />
   </head>
   <body class={pageClass}>
     <a class="skip" href="#main">Skip to content</a>
