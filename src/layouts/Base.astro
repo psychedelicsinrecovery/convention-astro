@@ -1,8 +1,9 @@
 ---
 // Every Convention page. Built on the same pattern as the AstroLog: PIR's shared arrival kit and
 // A.L.E.X. design system are loaded from the hub, and this site's own layer is /convention.css.
-// The kit's site config is overridden below (window.ARRIVAL_SITE) so the navbar and footer belong
-// to the Convention, the same way the desk portals swap theirs in before the kit runs.
+// window.ARRIVAL_SITE carries only this site's name/what (that is what the kit reads per site);
+// the navbar and footer come from the org-level kit config, which is what makes every PIR
+// GitHub site feel like one suite.
 interface Props {
   title: string;
   description: string;
@@ -12,7 +13,7 @@ interface Props {
   ogImage?: string;
   ogAlt?: string;
 }
-const { title, description, active, pageClass = "", splash = true } = Astro.props as Props;
+const { title, description, active, pageClass = "", splash = false } = Astro.props as Props;
 const base = import.meta.env.BASE_URL;
 const siteUrl = "https://psychedelicsinrecovery.github.io";
 const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
@@ -61,48 +62,11 @@ const current = active && active !== "lost" ? active : undefined;
     <link rel="stylesheet" href={FONTS} />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-    <!-- The kit override: the Convention's own navbar and footer, read by the kit before it runs. -->
+    <!-- The kit override: this site's name and welcome, read by the kit before it runs. -->
     <script is:inline>
       window.ARRIVAL_SITE = {
         name: "the PIR® Convention site",
         what: "This is the Convention home of Psychedelics In Recovery™ – PIR®: the story of each gathering, the photo gallery, and what is coming next.",
-        nav: {
-          label: "Convention",
-          items: [
-            { id: "overview", label: "Overview", icon: "confetti", href: "/convention-astro/", exact: true, priority: 1 },
-            { id: "gallery", label: "Gallery", icon: "image", href: "/convention-astro/gallery", priority: 2 },
-            { id: "events", label: "Events", icon: "calendar-blank", href: "/convention-astro/events", priority: 2 },
-            { id: "schedule", label: "Schedule", icon: "list-checks", href: "https://www.psychedelicsinrecovery.org/convention-2026-schedule/", priority: 2 },
-            { id: "live", label: "Live Stream", icon: "video-camera", href: "https://www.psychedelicsinrecovery.org/convention-live-stream/", priority: 3 },
-            { id: "committee", label: "Committee", icon: "hand-heart", href: "https://service.psychedelicsinrecovery.org/convention-committee/", priority: 3 },
-          ],
-        },
-        footer: {
-          label: "The Convention, all the ways around",
-          groups: [
-            { label: "This gathering", icon: "confetti", items: [
-              { id: "overview", label: "Overview", icon: "confetti", href: "/convention-astro/" },
-              { id: "gallery", label: "Photo gallery", icon: "image", href: "/convention-astro/gallery" },
-              { id: "events", label: "Past & upcoming", icon: "calendar-blank", href: "/convention-astro/events" },
-            ]},
-            { label: "On the WordPress site", icon: "globe", items: [
-              { id: "hub", label: "Convention Hub", icon: "globe", href: "https://www.psychedelicsinrecovery.org/convention-hub/" },
-              { id: "landing", label: "Convention page", icon: "globe", href: "https://www.psychedelicsinrecovery.org/convention-2026/" },
-              { id: "schedule", label: "Schedule & program", icon: "list-checks", href: "https://www.psychedelicsinrecovery.org/convention-2026-schedule/" },
-              { id: "live", label: "Live stream", icon: "video-camera", href: "https://www.psychedelicsinrecovery.org/convention-live-stream/" },
-            ]},
-            { label: "Get involved", icon: "hand-heart", items: [
-              { id: "committee", label: "Convention Committee", icon: "hand-heart", href: "https://service.psychedelicsinrecovery.org/convention-committee/" },
-              { id: "donate", label: "7th Tradition", icon: "coins", href: "https://www.psychedelicsinrecovery.org/7th-tradition/" },
-              { id: "astrolog", label: "The AstroLog", icon: "clock-counter-clockwise", href: "https://psychedelicsinrecovery.github.io/changelog-astro-public/" },
-            ]},
-            { label: "About", icon: "info", items: [
-              { id: "portal", label: "PIR® on GitHub", icon: "house", href: "https://psychedelicsinrecovery.github.io" },
-              { id: "servicesite", label: "Service site", icon: "wrench", href: "https://service.psychedelicsinrecovery.org" },
-              { id: "crisis", label: "Crisis resources", icon: "lifebuoy", href: "https://www.psychedelicsinrecovery.org/crisis-resources/" },
-            ]},
-          ],
-        },
       };
     </script>
     <link rel="stylesheet" href={`${KIT}/arrival.css`} />
