@@ -1,8 +1,9 @@
 /* convention-extras.css - the 2026-10-16 feedback round, kept in its own layer so the
    cascade (this sheet loads after convention-chrome.css) does the overriding cleanly. */
 
-/* The hero's .wrap was a left-anchored flex child: give it its auto margins. */
-.pir-conv .hero { position: relative; }
+/* A.L.E.X. styles .hero as its own two-column grid, which parked the wrap in a narrow
+   left column (the left-offset hero). The Convention hero is a plain centered block. */
+.pir-conv .hero { position: relative; display: block; }
 .pir-conv .hero .wrap { margin-inline: auto; }
 
 /* The scroll-progress line hugs the BOTTOM of the navbar now (Base puts the div inside the header). */
