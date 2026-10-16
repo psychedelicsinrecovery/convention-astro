@@ -1,0 +1,65 @@
+/* convention-extras.css - the 2026-10-16 feedback round, kept in its own layer so the
+   cascade (this sheet loads after convention-chrome.css) does the overriding cleanly. */
+
+/* The hero's .wrap was a left-anchored flex child: give it its auto margins. */
+.pir-conv .hero { position: relative; }
+.pir-conv .hero .wrap { margin-inline: auto; }
+
+/* The scroll-progress line hugs the BOTTOM of the navbar now (Base puts the div inside the header). */
+.progress { position: absolute; top: auto; bottom: -1px; left: 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg, #e8b45a, #a78bfa); }
+
+/* The hero scroll cue: a gentle nudge that bows out once you scroll. */
+.scroll-cue { position: absolute; left: 50%; bottom: 0.3rem; transform: translateX(-50%); display: grid; place-items: center; color: #e8b45a; opacity: 1; transition: opacity 0.35s ease; pointer-events: none; z-index: 20; }
+.scroll-cue i { font-size: 1.45rem; animation: cue-b 1.8s ease-in-out infinite; }
+.scroll-cue small { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+@keyframes cue-b { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .scroll-cue i { animation: none; } }
+
+/* Marquee controls: arrows, page dots, counter (shared with the gallery suite). */
+.mar-controls { display: flex; align-items: center; justify-content: center; gap: 0.65rem; padding: 0.15rem 0 0.9rem; }
+.mar-btn { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); color: #f3eee4; cursor: pointer; font-size: 0.9rem; padding: 0; }
+.mar-btn:hover { border-color: rgba(232, 180, 90, 0.55); color: #e8b45a; }
+.mar-dots { display: flex; gap: 0.35rem; align-items: center; }
+.mar-dot { width: 8px; height: 8px; border-radius: 999px; border: 0; padding: 0; background: rgba(255, 255, 255, 0.25); cursor: pointer; transition: width 0.2s ease, background 0.2s ease; }
+.mar-dot[aria-current] { width: 20px; background: linear-gradient(90deg, #e8b45a, #a78bfa); }
+.mar-count { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(243, 238, 228, 0.55); min-width: 3ch; text-align: center; }
+
+/* The Convention site CTA gets a gentle scale with its glow. */
+@keyframes cv-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 180, 90, 0.0); transform: scale(1); } 50% { box-shadow: 0 0 22px 0 rgba(232, 180, 90, 0.4); transform: scale(1.03); } }
+
+/* The footer stacks: the kit footer gets the full width (no wrapped About row). */
+.pir-foot { grid-template-columns: 1fr; gap: 1.1rem; }
+
+/* Album cards: click one to open its lightbox. */
+.pir-conv .album-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; margin-top: 1rem; }
+.pir-conv .album-card { position: relative; display: flex; flex-direction: column; gap: 0.35rem; text-align: left; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 18px; background: rgba(255, 255, 255, 0.05); padding: 1.3rem; cursor: pointer; color: inherit; font: inherit; transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
+.pir-conv .album-card:hover { transform: translateY(-3px); border-color: rgba(232, 180, 90, 0.55); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+.pir-conv .album-card .a-icon { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 12px; background: rgba(232, 180, 90, 0.12); border: 1px solid rgba(232, 180, 90, 0.25); color: #e8b45a; font-size: 1.25rem; margin-bottom: 0.4rem; }
+.pir-conv .album-card h3 { font-family: "Fraunces", Georgia, serif; font-size: 1.15rem; margin: 0; color: #f3eee4; }
+.pir-conv .album-card .a-meta { font-size: 0.83rem; color: rgba(243, 238, 228, 0.66); display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.pir-conv .album-card .a-count { display: inline-flex; align-items: center; font-size: 0.72rem; font-weight: 700; color: #e8b45a; background: rgba(232, 180, 90, 0.1); border: 1px solid rgba(232, 180, 90, 0.3); border-radius: 999px; padding: 0.14rem 0.55rem; }
+.pir-conv .album-card .a-links { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; justify-content: center; }
+.pir-conv .album-card .a-links a { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700; color: #f3eee4; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; padding: 0.45rem 0.85rem; transition: transform 0.15s ease, border-color 0.15s ease; }
+.pir-conv .album-card .a-links a.s-primary { background: linear-gradient(120deg, #a78bfa, #e8b45a); color: #17120a; border-color: transparent; }
+.pir-conv .album-card .a-links a.s-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.pir-conv .album-card .a-links a.s-ghost { background: transparent; }
+.pir-conv .album-card .a-links a.s-ghost:hover { border-color: rgba(232, 180, 90, 0.55); color: #e8b45a; transform: translateY(-1px); }
+
+/* The lightbox, david-amaringo style. */
+.pir-conv .conv-lb { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(4, 3, 10, 0.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.pir-conv .conv-lb.open { display: grid; grid-template-rows: auto 1fr auto; }
+.pir-conv .conv-lb .lb-top { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; }
+.pir-conv .conv-lb .count { font-family: "Fraunces", Georgia, serif; color: rgba(243, 238, 228, 0.66); font-size: 0.95rem; }
+.pir-conv .conv-lb .count b { color: #e8b45a; }
+.pir-conv .conv-lb .lb-top .spacer { flex: 1; }
+.pir-conv .conv-lb .x, .pir-conv .conv-lb .dl { display: inline-flex; align-items: center; gap: 0.45rem; color: #f3eee4; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; padding: 0.5rem 0.9rem; background: rgba(6, 5, 14, 0.6); }
+.pir-conv .conv-lb .x:hover, .pir-conv .conv-lb .dl:hover { border-color: rgba(232, 180, 90, 0.55); }
+.pir-conv .conv-lb .stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 4rem; }
+.pir-conv .conv-lb .stage img { max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+.pir-conv .conv-lb .arrow { position: absolute; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(6, 5, 14, 0.7); color: #f3eee4; cursor: pointer; font-size: 1.2rem; }
+.pir-conv .conv-lb .arrow:hover { border-color: rgba(232, 180, 90, 0.6); }
+.pir-conv .conv-lb .arrow.prev { left: 1rem; }
+.pir-conv .conv-lb .arrow.next { right: 1rem; }
+.pir-conv .conv-lb .lb-cap { text-align: center; padding: 1rem; color: rgba(243, 238, 228, 0.66); font-size: 0.86rem; min-height: 3.2rem; }
+.pir-conv .conv-lb .lb-cap b { color: #f3eee4; }
+@media (max-width: 640px) { .pir-conv .conv-lb .stage { padding: 0 0.5rem; } .pir-conv .conv-lb .arrow { width: 2.4rem; height: 2.4rem; } .pir-conv .conv-lb .arrow.prev { left: 0.4rem; } .pir-conv .conv-lb .arrow.next { right: 0.4rem; } }
