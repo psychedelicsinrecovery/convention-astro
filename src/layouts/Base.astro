@@ -73,14 +73,24 @@ const current = active && active !== "lost" ? active : undefined;
     <script is:inline src={`${KIT}/org.js`}></script>
     <script is:inline src={`${KIT}/arrival.js`}></script>
     <link rel="stylesheet" href={`${ALEX}/alex.css`} />
-    <link rel="stylesheet" href={`${base}/convention.css?v=2`} />
-    <link rel="stylesheet" href={`${base}/convention-chrome.css?v=2`} />
+    <link rel="stylesheet" href={`${base}/convention.css?v=3`} />
+    <link rel="stylesheet" href={`${base}/convention-chrome.css?v=3`} />
     <script is:inline>
       // The thin scroll-progress line under the header.
       addEventListener("scroll", function () {
         var d = document.documentElement, p = document.querySelector(".progress");
         if (p) p.style.width = Math.round((d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight)) * 100) + "%";
       }, { passive: true });
+      var p0 = document.querySelector(".progress");
+      if (p0) p0.style.width = "0%";
+      document.querySelectorAll(".brand-drop").forEach(function (d) {
+        d.addEventListener("toggle", function () { if (d.open) d.classList.add("seen"); });
+      });
+      document.addEventListener("click", function (e) {
+        document.querySelectorAll(".brand-drop[open]").forEach(function (d) {
+          if (!d.contains(e.target)) d.removeAttribute("open");
+        });
+      });
     </script>
   </head>
   <body class={pageClass}>
@@ -89,10 +99,26 @@ const current = active && active !== "lost" ? active : undefined;
     <canvas id="starfield-canvas" aria-hidden="true"></canvas>
     <header class="top">
       <div class="wrap">
-        <a class="brand" href={`${base}/`} aria-label="PIR® Convention, overview">
-          <img src={`${base}/favicon.svg`} alt="" width="34" height="34" />
-          <span class="arr-brand-text"><span class="word">Convention</span> <small>PIR®</small></span>
-        </a>
+        <details class="brand-drop">
+          <summary class="brand" aria-label="Convention pages menu">
+            <img src={`${base}/favicon.svg`} alt="" width="34" height="34" />
+            <span class="arr-brand-text"><span class="word">Convention</span> <small>PIR®</small></span>
+            <i class="ph-fill ph-caret-down" aria-hidden="true"></i>
+            <span class="tap-hint">click me 1st</span>
+          </summary>
+          <div class="brand-menu">
+            <a href={`${base}/`}><i class="ph-fill ph-confetti"></i> Overview</a>
+            <a href={`${base}/gallery`}><i class="ph-fill ph-image"></i> The Convention gallery</a>
+            <a href={`${base}/events`}><i class="ph-fill ph-calendar-blank"></i> Events</a>
+            <a href={`${WP}/convention-2026-schedule/`} target="_blank" rel="noopener"><i class="ph-fill ph-list-checks"></i> Schedule &amp; program</a>
+            <a href={`${WP}/convention-live-stream/`} target="_blank" rel="noopener"><i class="ph-fill ph-video-camera"></i> Live stream</a>
+            <a href={HUB_PAGE}><i class="ph-fill ph-globe"></i> The Convention Hub (WordPress)</a>
+            <a href="https://psychedelicsinrecovery.github.io/gallery/"><i class="ph-fill ph-images"></i> The PIR® Gallery (albums)</a>
+            <a href="https://psychedelicsinrecovery.github.io/gallery/walkthrough.html"><i class="ph-fill ph-map-trifold"></i> Add your photos — the walkthrough</a>
+            <a href="https://pir68.pixieset.com/psychedelicsinrecoverytminauguralconventiondenver2026/" target="_blank" rel="noopener"><i class="ph-fill ph-image"></i> The Pixieset album (temporary)</a>
+            <a href="https://drive.google.com/drive/folders/1zUL1fHkDIWJLKrtHzfFToceFoFl-PiTu?usp=sharing" target="_blank" rel="noopener"><i class="ph-fill ph-folder-open"></i> The shared Drive folder</a>
+          </div>
+        </details>
         <arrival-nav current={current}></arrival-nav>
         <arrival-controls></arrival-controls>
       </div>

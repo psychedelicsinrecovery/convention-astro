@@ -2,14 +2,6 @@
 import Base from "../layouts/Base.astro";
 import { convention, links } from "../data/convention";
 const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
-const tiles = [
-  ["The opening ceremony", "tile-1"],
-  ["Panels & speakers", "tile-2"],
-  ["The first hug in person", "tile-3"],
-  ["Candlelight meetings", "tile-4"],
-  ["Art & creativity", "tile-5"],
-  ["Fellowship dinners", "tile-6"],
-];
 ---
 
 <Base
@@ -34,15 +26,29 @@ const tiles = [
       <div class="conv-marquee-label">In the albums, moments like these</div>
       <p class="conv-marquee-note">Illustrated previews — as albums come in, real photos take their places here.</p>
       <div class="conv-track">
-        {tiles.map(([cap, tile]) => (
+        {[
+          ["The opening ceremony", "tile-1"],
+          ["Panels & speakers", "tile-2"],
+          ["The first hug in person", "tile-3"],
+          ["Candlelight meetings", "tile-4"],
+          ["Art & creativity", "tile-5"],
+          ["Fellowship dinners", "tile-6"],
+        ].map(([cap, tile]) => (
           <figure class="conv-tile">
-            <img src={`/convention-astro/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
+            <img src={`https://psychedelicsinrecovery.github.io/gallery/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
             <figcaption>{cap}</figcaption>
           </figure>
         ))}
-        {tiles.map(([cap, tile]) => (
+        {[
+          ["The opening ceremony", "tile-1"],
+          ["Panels & speakers", "tile-2"],
+          ["The first hug in person", "tile-3"],
+          ["Candlelight meetings", "tile-4"],
+          ["Art & creativity", "tile-5"],
+          ["Fellowship dinners", "tile-6"],
+        ].map(([cap, tile]) => (
           <figure class="conv-tile">
-            <img src={`/convention-astro/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
+            <img src={`https://psychedelicsinrecovery.github.io/gallery/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
             <figcaption>{cap}</figcaption>
           </figure>
         ))}
@@ -94,4 +100,32 @@ const tiles = [
       </div>
     </section>
   </div>
+
+  <script is:inline>
+    // Every marquee is draggable and wheel-scrollable; the loop pauses while you hold it.
+    function marqueeJS(track) {
+      if (!track) return;
+      var x = 0, half = 0, drag = false, sx = 0, x0 = 0, hover = false;
+      var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var measure = function () { half = track.scrollWidth / 2 || track.scrollWidth || 1; };
+      measure(); addEventListener("resize", measure);
+      track.style.animation = "none";
+      track.style.cursor = "grab";
+      track.style.touchAction = "pan-y";
+      var frame = function () {
+        if (!drag && !hover && !reduce) x += 0.4;
+        var m = ((x % half) + half) % half;
+        track.style.transform = "translateX(" + (-m) + "px)";
+        requestAnimationFrame(frame);
+      };
+      track.addEventListener("pointerdown", function (e) { drag = true; sx = e.clientX; x0 = x; track.style.cursor = "grabbing"; track.setPointerCapture(e.pointerId); });
+      track.addEventListener("pointermove", function (e) { if (drag) x = x0 - (e.clientX - sx); });
+      ["pointerup", "pointercancel"].forEach(function (t) { track.addEventListener(t, function () { drag = false; track.style.cursor = "grab"; }); });
+      track.addEventListener("mouseenter", function () { hover = true; });
+      track.addEventListener("mouseleave", function () { hover = false; });
+      track.addEventListener("wheel", function (e) { x += e.deltaY; e.preventDefault(); }, { passive: false });
+      frame();
+    }
+    document.querySelectorAll(".conv-track").forEach(marqueeJS);
+  </script>
 </Base>

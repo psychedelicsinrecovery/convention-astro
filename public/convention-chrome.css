@@ -159,3 +159,23 @@ nav.dock .sm { display: none; }
 .pir-conv .conv-tile:hover figcaption { opacity: 1; }
 @keyframes conv-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .pir-conv .conv-track { animation: none; flex-wrap: wrap; width: auto; } }
+
+/* ---- The header brand dropdown (every Convention page) ---- */
+.brand-drop { position: relative; }
+.brand-drop summary { list-style: none; cursor: pointer; border-radius: 12px; }
+.brand-drop summary::-webkit-details-marker { display: none; }
+.brand-drop summary .ph-caret-down { font-size: 0.8rem; color: #e8b45a; transition: transform 0.15s ease; }
+.brand-drop[open] summary .ph-caret-down { transform: rotate(180deg); }
+.brand-drop .brand { padding: 0.25rem 0.45rem; animation: brand-pulse 2.6s ease-in-out infinite; }
+.brand-drop[open] .brand, .brand-drop.seen .brand { animation: none; }
+.brand-drop .tap-hint { margin-left: 0.2rem; font: 700 0.62rem/1 "Manrope", system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #17120a; background: linear-gradient(120deg, #e8b45a, #a78bfa); border-radius: 999px; padding: 0.3rem 0.55rem; animation: hint-float 2.6s ease-in-out infinite; white-space: nowrap; }
+.brand-drop[open] .tap-hint, .brand-drop.seen .tap-hint { opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+@keyframes brand-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 180, 90, 0); } 50% { box-shadow: 0 0 0 6px rgba(232, 180, 90, 0.16), 0 0 16px 2px rgba(232, 180, 90, 0.22); } }
+@keyframes hint-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.brand-menu { position: absolute; top: calc(100% + 0.6rem); left: 0; z-index: 60; min-width: 300px; display: grid; gap: 0.15rem; padding: 0.6rem; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; background: rgba(11, 9, 24, 0.97); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5); }
+.brand-menu a { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 9px; color: #f3eee4; text-decoration: none; font-family: "Manrope", system-ui, sans-serif; font-size: 0.9rem; font-weight: 600; }
+.brand-menu a:hover { background: rgba(255, 255, 255, 0.06); color: #e8b45a; }
+.brand-menu a i { color: #e8b45a; font-size: 1rem; }
+
+/* ---- The scroll-progress line: unscoped, starts empty ---- */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 95; background: linear-gradient(90deg, #e8b45a, #a78bfa); }
