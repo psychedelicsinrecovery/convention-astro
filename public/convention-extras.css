@@ -2,20 +2,27 @@
    cascade (this sheet loads after convention-chrome.css) does the overriding cleanly. */
 
 /* A.L.E.X. styles .hero as its own two-column grid, which parked the wrap in a narrow
-   left column (the left-offset hero). The Convention hero is a plain centered block,
-   and the h1/lede (max-width 20ch/62ch, no auto margins) center their boxes too. */
+   left column (the left-offset hero). The Convention hero is a plain centered block. */
 .pir-conv .hero { position: relative; display: block; }
 .pir-conv .hero .wrap { margin-inline: auto; }
 .pir-conv .hero h1, .pir-conv .hero .lede { margin-inline: auto; }
+
+/* Anchor jumps stop short of the fixed navbar; the gallery hero keeps its welcome tight. */
+html { scroll-padding-top: 5.5rem; }
+.pir-conv .hero-gallery { padding: clamp(1.8rem, 4vw, 3rem) 0 1.2rem; }
+
+/* The kit footer: four groups on one row (the 11.5rem minimum wrapped About). */
+.arr-foot-groups { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
 
 /* The scroll-progress line hugs the BOTTOM of the navbar now (Base puts the div inside the header). */
 .progress { position: absolute; top: auto; bottom: -1px; left: 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg, #e8b45a, #a78bfa); }
 
 /* The hero scroll cue: a gentle nudge that bows out once you scroll. */
-.scroll-cue { position: absolute; left: 50%; bottom: 0.3rem; transform: translateX(-50%); display: grid; place-items: center; color: #e8b45a; opacity: 1; transition: opacity 0.35s ease; pointer-events: none; z-index: 20; }
+.scroll-cue { position: absolute; left: 50%; bottom: 4.3rem; transform: translateX(-50%); display: grid; place-items: center; color: #e8b45a; opacity: 1; transition: opacity 0.35s ease; pointer-events: none; z-index: 20; }
 .scroll-cue i { font-size: 1.45rem; animation: cue-b 1.8s ease-in-out infinite; }
 .scroll-cue small { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
 @keyframes cue-b { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+.scroll-cue.cue-inline { position: static; transform: none; margin: 0.1rem auto 0.5rem; }
 @media (prefers-reduced-motion: reduce) { .scroll-cue i { animation: none; } }
 
 /* Marquee controls: arrows, page dots, counter (shared with the gallery suite). */
@@ -48,21 +55,52 @@
 .pir-conv .album-card .a-links a.s-ghost { background: transparent; }
 .pir-conv .album-card .a-links a.s-ghost:hover { border-color: rgba(232, 180, 90, 0.55); color: #e8b45a; transform: translateY(-1px); }
 
-/* The lightbox, david-amaringo style. */
-.pir-conv .conv-lb { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(4, 3, 10, 0.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.pir-conv .conv-lb.open { display: grid; grid-template-rows: auto 1fr auto; }
-.pir-conv .conv-lb .lb-top { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; }
-.pir-conv .conv-lb .count { font-family: "Fraunces", Georgia, serif; color: rgba(243, 238, 228, 0.66); font-size: 0.95rem; }
-.pir-conv .conv-lb .count b { color: #e8b45a; }
-.pir-conv .conv-lb .lb-top .spacer { flex: 1; }
-.pir-conv .conv-lb .x, .pir-conv .conv-lb .dl { display: inline-flex; align-items: center; gap: 0.45rem; color: #f3eee4; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; padding: 0.5rem 0.9rem; background: rgba(6, 5, 14, 0.6); }
-.pir-conv .conv-lb .x:hover, .pir-conv .conv-lb .dl:hover { border-color: rgba(232, 180, 90, 0.55); }
-.pir-conv .conv-lb .stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 4rem; }
-.pir-conv .conv-lb .stage img { max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
-.pir-conv .conv-lb .arrow { position: absolute; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(6, 5, 14, 0.7); color: #f3eee4; cursor: pointer; font-size: 1.2rem; }
-.pir-conv .conv-lb .arrow:hover { border-color: rgba(232, 180, 90, 0.6); }
-.pir-conv .conv-lb .arrow.prev { left: 1rem; }
-.pir-conv .conv-lb .arrow.next { right: 1rem; }
-.pir-conv .conv-lb .lb-cap { text-align: center; padding: 1rem; color: rgba(243, 238, 228, 0.66); font-size: 0.86rem; min-height: 3.2rem; }
-.pir-conv .conv-lb .lb-cap b { color: #f3eee4; }
-@media (max-width: 640px) { .pir-conv .conv-lb .stage { padding: 0 0.5rem; } .pir-conv .conv-lb .arrow { width: 2.4rem; height: 2.4rem; } .pir-conv .conv-lb .arrow.prev { left: 0.4rem; } .pir-conv .conv-lb .arrow.next { right: 0.4rem; } }
+/* The lightbox, david-amaringo style. Lives OUTSIDE .pir-conv in the DOM, so these
+   rules are unscoped - the old .pir-conv prefix never matched, the overlay stayed
+   display:none while the page's scroll locked, and its top bar rendered as a stray
+   stub at the page bottom (the mystery download button). */
+.conv-lb { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(4, 3, 10, 0.94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.conv-lb.open { display: grid; grid-template-rows: auto 1fr auto; }
+.conv-lb .lb-top { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; }
+.conv-lb .count { font-family: "Fraunces", Georgia, serif; color: rgba(243, 238, 228, 0.66); font-size: 0.95rem; }
+.conv-lb .count b { color: #e8b45a; }
+.conv-lb .lb-top .spacer { flex: 1; }
+.conv-lb .x, .conv-lb .dl { display: inline-flex; align-items: center; gap: 0.45rem; color: #f3eee4; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; padding: 0.5rem 0.9rem; background: rgba(6, 5, 14, 0.6); }
+.conv-lb .x:hover, .conv-lb .dl:hover { border-color: rgba(232, 180, 90, 0.55); }
+.conv-lb .stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 4rem; }
+.conv-lb .stage img { max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+.conv-lb .arrow { position: absolute; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(6, 5, 14, 0.7); color: #f3eee4; cursor: pointer; font-size: 1.2rem; }
+.conv-lb .arrow:hover { border-color: rgba(232, 180, 90, 0.6); }
+.conv-lb .arrow.prev { left: 1rem; }
+.conv-lb .arrow.next { right: 1rem; }
+.conv-lb .lb-cap { text-align: center; padding: 1rem; color: rgba(243, 238, 228, 0.66); font-size: 0.86rem; min-height: 3.2rem; }
+.conv-lb .lb-cap b { color: #f3eee4; }
+@media (max-width: 640px) { .conv-lb .stage { padding: 0 0.5rem; } .conv-lb .arrow { width: 2.4rem; height: 2.4rem; } .conv-lb .arrow.prev { left: 0.4rem; } .conv-lb .arrow.next { right: 0.4rem; } }
+
+/* ---- The gallery wall: hero tiles hang like framed prints ---- */
+.pir-conv .hero-gallery::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(45% 60% at 50% 18%, rgba(232, 180, 90, 0.09), transparent 70%); }
+.pir-conv .hero-gallery .conv-tile { background: #f6f1e6; border: 7px solid #f6f1e6; border-radius: 4px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.35); }
+.pir-conv .hero-gallery .conv-tile:nth-child(odd) { transform: rotate(-1.6deg); }
+.pir-conv .hero-gallery .conv-tile:nth-child(even) { transform: rotate(1.3deg); }
+.pir-conv .hero-gallery .conv-tile:hover { transform: rotate(0deg) translateY(-4px); }
+.pir-conv .hero-gallery .conv-tile figcaption { color: #3d3428; background: none; }
+.pir-conv .wall-chip { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.7rem auto 0; font-size: 0.8rem; font-weight: 700; color: #e8b45a; border: 1px solid rgba(232, 180, 90, 0.35); background: rgba(232, 180, 90, 0.08); border-radius: 999px; padding: 0.35rem 0.85rem; }
+
+/* ---- The album switcher: tabs pick, the stage previews, thumbs open the lightbox ---- */
+.pir-conv .album-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 0.6rem 0 1rem; }
+.pir-conv .album-tab { display: inline-flex; align-items: center; gap: 0.4rem; font: inherit; font-size: 0.85rem; font-weight: 700; color: #f3eee4; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 999px; padding: 0.5rem 0.95rem; cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease; }
+.pir-conv .album-tab:hover { transform: translateY(-1px); border-color: rgba(232, 180, 90, 0.55); }
+.pir-conv .album-tab[aria-selected="true"] { background: linear-gradient(120deg, #a78bfa, #e8b45a); color: #17120a; border-color: transparent; }
+.pir-conv .album-stage { border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 18px; background: rgba(255, 255, 255, 0.04); padding: 1.2rem 1.2rem 1.4rem; }
+.pir-conv .stage-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1rem; text-align: center; margin-bottom: 0.9rem; }
+.pir-conv .stage-head h3 { font-family: "Fraunces", Georgia, serif; font-size: 1.25rem; margin: 0; color: #f3eee4; }
+.pir-conv .stage-head .a-meta { font-size: 0.83rem; color: rgba(243, 238, 228, 0.66); }
+.pir-conv .stage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.7rem; }
+.pir-conv .stage-grid .thumb { position: relative; margin: 0; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; padding: 0; background: none; cursor: pointer; }
+.pir-conv .stage-grid .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s ease; }
+.pir-conv .stage-grid .thumb:hover img { transform: scale(1.06); }
+.pir-conv .stage-grid .thumb figcaption { position: absolute; inset: auto 0 0 0; padding: 0.35rem 0.5rem; font-size: 0.72rem; color: #f3eee4; background: linear-gradient(transparent, rgba(4, 3, 10, 0.85)); text-align: left; }
+.pir-conv .stage-empty { text-align: center; padding: 1.6rem 1rem; color: rgba(243, 238, 228, 0.66); }
+.pir-conv .stage-empty .a-links { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 0.8rem; }
+.pir-conv .stage-empty .a-links a { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 700; color: #f3eee4; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 999px; padding: 0.5rem 0.95rem; }
+.pir-conv .stage-empty .a-links a.s-primary { background: linear-gradient(120deg, #a78bfa, #e8b45a); color: #17120a; border-color: transparent; }
