@@ -105,3 +105,9 @@ html { scroll-padding-top: 5.5rem; }
 .pir-conv .stage-empty .a-links { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 0.8rem; }
 .pir-conv .stage-empty .a-links a { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 700; color: #f3eee4; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 999px; padding: 0.5rem 0.95rem; }
 .pir-conv .stage-empty .a-links a.s-primary { background: linear-gradient(120deg, #a78bfa, #e8b45a); color: #17120a; border-color: transparent; }
+
+/* The highlight-card link: a small gold call-to-action inside a bento card */
+.hl .hl-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.55rem; font-size: 0.85rem; font-weight: 700; color: var(--gold, #e8b45a); text-decoration: none; }
+.hl .hl-link:hover { text-decoration: underline; }
+.hl .hl-link i { font-size: 0.9rem; transition: transform 0.18s ease; }
+.hl .hl-link:hover i { transform: translate(2px, -2px); }
