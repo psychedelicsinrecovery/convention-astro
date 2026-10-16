@@ -3,13 +3,16 @@ import Base from "../layouts/Base.astro";
 import { convention, links } from "../data/convention";
 const galleryApp = "https://psychedelicsinrecovery.github.io/gallery/";
 const driveHref = "https://drive.google.com/drive/folders/1zUL1fHkDIWJLKrtHzfFToceFoFl-PiTu?usp=sharing";
+// The marquee hangs a wall of moments; each tile carries the album it belongs to,
+// so clicking it switches the preview below. More albums join as they gather.
+const MANIFEST = "https://psychedelicsinrecovery.github.io/gallery/photos.json";
 const tiles = [
-  ["The opening ceremony", "tile-1"],
-  ["Panels & speakers", "tile-2"],
-  ["The first hug in person", "tile-3"],
-  ["Candlelight meetings", "tile-4"],
-  ["Art & creativity", "tile-5"],
-  ["Fellowship dinners", "tile-6"],
+  ["The opening ceremony", "tile-1", "convention-2026"],
+  ["Panels & speakers", "tile-2", "convention-2026"],
+  ["The first hug in person", "tile-3", "convention-2026"],
+  ["Candlelight meetings", "tile-4", "convention-2026"],
+  ["Art & creativity", "tile-5", "convention-2026"],
+  ["Fellowship dinners", "tile-6", "convention-2026"],
 ];
 ---
 
@@ -27,20 +30,23 @@ const tiles = [
           The fellowship's photos from Denver — browsable, downloadable, and cared for. Pick an
           album below to open it in the lightbox, or wander the moments in the marquee.
         </p>
+        <div class="wall-chip" id="wall-chip"><i class="ph-fill ph-hand-heart"></i> The albums are gathering</div>
       </div>
 
-      <!-- The marquee lives in the hero now: the moments, right under the welcome. -->
+      <div class="scroll-cue" aria-hidden="true"><i class="ph-fill ph-caret-down"></i><small>scroll</small></div>
+
+      <!-- The gallery wall: moments from the albums, hung like framed prints. -->
       <div class="conv-marquee" aria-label="A scrolling preview of the moments the albums will hold">
         <div class="conv-marquee-label">In the albums, moments like these</div>
         <div class="conv-track">
-          {tiles.map(([cap, tile]) => (
-            <figure class="conv-tile" data-tile={tile} data-cap={cap} role="button" tabindex="0" aria-label={`Preview: ${cap}`}>
+          {tiles.map(([cap, tile, album]) => (
+            <figure class="conv-tile" data-tile={tile} data-cap={cap} data-album={album} role="button" tabindex="0" aria-label={`${cap} — open its album below`}>
               <img src={`https://psychedelicsinrecovery.github.io/gallery/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
               <figcaption>{cap}</figcaption>
             </figure>
           ))}
-          {tiles.map(([cap, tile]) => (
-            <figure class="conv-tile" data-tile={tile} data-cap={cap} role="button" tabindex="0" aria-label={`Preview: ${cap}`}>
+          {tiles.map(([cap, tile, album]) => (
+            <figure class="conv-tile" data-tile={tile} data-cap={cap} data-album={album} role="button" tabindex="0" aria-label={`${cap} — open its album below`}>
               <img src={`https://psychedelicsinrecovery.github.io/gallery/assets/placeholders/${tile}.svg`} alt="" loading="lazy" />
               <figcaption>{cap}</figcaption>
             </figure>
@@ -53,10 +59,11 @@ const tiles = [
       <div class="wrap">
         <div class="band-head"><h2>Choose an album</h2><span class="rule"></span><a href={galleryApp}>The full gallery ↗</a></div>
         <p class="lede" style="font-size:0.9rem">
-          Select an album to open it in the lightbox — arrows to wander, a caption on every photo.
-          Albums still gathering point the way to where their photos live right now.
+          Pick an album — the wall above hands you here — and wander its photos as thumbnails;
+          click any photo to open the lightbox with arrows, captions, and downloads.
         </p>
-        <div class="album-grid" id="album-grid" aria-live="polite"></div>
+        <div class="album-tabs" id="album-tabs" role="tablist" aria-label="Albums"></div>
+        <div id="album-stage" aria-live="polite"></div>
       </div>
     </section>
 
@@ -101,7 +108,7 @@ const tiles = [
     </section>
   </div>
 
-  <!-- The lightbox: click a tile or an album, wander with the arrows. -->
+  <!-- The lightbox: thumbnails open it; arrows wander; Escape closes. -->
   <div class="conv-lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <div class="lb-top">
       <span class="count"><b id="lb-i">1</b> / <span id="lb-n">1</span></span>
@@ -138,7 +145,7 @@ const tiles = [
       var measure = function () {
         half = track.scrollWidth / 2 || track.scrollWidth || 1;
         page = box.clientWidth || 1;
-        pages = Math.max(1, Math.round(half / page));
+        pages = Math.max(1, Math.floor(Math.max(0, half - page) / page) + 1);
         if (dots.length !== pages) {
           dotsEl.innerHTML = ""; dots = [];
           for (var i = 0; i < pages; i++) {
@@ -208,56 +215,78 @@ const tiles = [
       if (e.key === "ArrowLeft") lbStep(-1);
       if (e.key === "ArrowRight") lbStep(1);
     });
-    // Every tile previews itself in the lightbox — the albums take over as photos land.
-    document.querySelectorAll(".conv-tile").forEach(function (t) {
-      var show = function () {
-        lbOpen([{ src: t.querySelector("img").src, caption: t.getAttribute("data-cap") }], 0);
-      };
-      t.addEventListener("click", show);
-      t.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
-    });
 
-    // ---- The albums: one fetch, real cards, lightbox when photos exist ----
-    fetch("https://psychedelicsinrecovery.github.io/gallery/photos.json")
+    // ---- The album switcher: tabs pick an album, the stage previews it, thumbs open the lightbox ----
+    var ALBUMS = [];
+    function selectAlbum(id, scrollTo) {
+      var a = ALBUMS.filter(function (x) { return x.id === id; })[0] || ALBUMS[0];
+      if (!a) return;
+      document.querySelectorAll(".album-tab").forEach(function (t) {
+        if (t.getAttribute("data-album") === a.id) t.setAttribute("aria-selected", "true");
+        else t.removeAttribute("aria-selected");
+      });
+      var n = (a.photos || []).length;
+      var head = '<div class="stage-head"><h3>' + esc(a.title) + "</h3>" +
+        '<span class="a-meta">' + esc(a.when || "") + (a.place ? " · " + esc(a.place) : "") + "</span>" +
+        '<span class="a-count">' + (n ? n + " photo" + (n === 1 ? "" : "s") : "gathering now") + "</span></div>";
+      var body;
+      if (n) {
+        var photos = (a.photos || []).map(function (p) { return { src: "https://psychedelicsinrecovery.github.io/gallery/" + (p.src || ""), caption: p.caption || "", credit: p.credit || "" }; });
+        body = '<div class="stage-grid">' + photos.map(function (p, i) {
+          return '<figure class="thumb" data-i="' + i + '" role="button" tabindex="0" aria-label="Open ' + esc(p.caption || "photo") + '"><img src="' + esc(p.src) + '" alt="" loading="lazy" />' +
+            (p.caption ? "<figcaption>" + esc(p.caption) + "</figcaption>" : "") + "</figure>";
+        }).join("") + "</div>";
+        setTimeout(function () {
+          document.querySelectorAll("#album-stage .thumb").forEach(function (th) {
+            var open = function () { lbOpen(photos, parseInt(th.getAttribute("data-i"), 10) || 0); };
+            th.addEventListener("click", open);
+            th.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+          });
+        }, 0);
+      } else {
+        var acts = "";
+        if (a.pixieset) acts += '<a class="s-primary" href="' + esc(a.pixieset) + '" target="_blank" rel="noopener"><i class="ph-fill ph-image"></i> See it on Pixieset as it gathers</a>';
+        acts += '<a href="https://psychedelicsinrecovery.github.io/gallery/walkthrough.html"><i class="ph-fill ph-hand-heart"></i> Add your photos</a>';
+        if (a.astro) acts += '<a href="' + esc(a.astro) + '"><i class="ph-fill ph-confetti"></i> Its story site</a>';
+        body = '<div class="stage-empty"><i class="ph-fill ph-camera" style="font-size:1.6rem;color:#e8b45a"></i>' +
+          "<h3>The first photos are on their way</h3><p>The fellowship is gathering this album now — be among the first to add yours.</p>" +
+          '<div class="a-links">' + acts + "</div></div>";
+      }
+      document.getElementById("album-stage").innerHTML = '<div class="album-stage">' + head + body + "</div>";
+      if (scrollTo) document.getElementById("albums").scrollIntoView({ behavior: "smooth" });
+    }
+    function wallChip() {
+      var n = 0;
+      ALBUMS.forEach(function (a) { n += (a.photos || []).length; });
+      var chip = document.getElementById("wall-chip");
+      if (!chip) return;
+      chip.innerHTML = n
+        ? '<i class="ph-fill ph-images"></i> ' + ALBUMS.length + " album" + (ALBUMS.length === 1 ? "" : "s") + " · " + n + " photo" + (n === 1 ? "" : "s") + " gathered"
+        : '<i class="ph-fill ph-hand-heart"></i> ' + ALBUMS.length + " album" + (ALBUMS.length === 1 ? "" : "s") + " gathering — the first photo could be yours";
+    }
+    fetch(MANIFEST)
       .then(function (r) { if (!r.ok) throw new Error("no manifest"); return r.json(); })
       .then(function (data) {
-        var grid = document.getElementById("album-grid");
-        var albums = (data.albums || []).filter(function (a) { return !a.hidden; });
-        if (!albums.length) { grid.innerHTML = '<p class="lede">The albums are still being gathered — check back soon.</p>'; return; }
-        grid.innerHTML = albums.map(function (a) {
-          var n = (a.photos || []).length;
-          var links;
-          if (n) {
-            links = '<a class="s-primary" href="#" data-album="' + esc(a.id) + '"><i class="ph-fill ph-images"></i> Open the lightbox</a>';
-          } else if (a.pixieset) {
-            links = '<a class="s-primary" href="' + esc(a.pixieset) + '" target="_blank" rel="noopener"><i class="ph-fill ph-image"></i> See the album as it gathers</a>';
-          } else {
-            links = '<a class="s-primary" href="' + "https://psychedelicsinrecovery.github.io/gallery/walkthrough.html" + '"><i class="ph-fill ph-hand-heart"></i> Help it gather</a>';
-          }
-          if (a.astro) links += '<a class="s-ghost" href="' + esc(a.astro) + '"><i class="ph-fill ph-confetti"></i> Its Astro site</a>';
-          return (
-            '<button type="button" class="album-card" data-album="' + esc(a.id) + '">' +
-            '<span class="a-icon"><i class="ph-fill ' + esc(a.icon || "ph-images") + '"></i></span>' +
-            "<h3>" + esc(a.title) + "</h3>" +
-            '<span class="a-meta">' + esc(a.when || "") + (a.place ? " · " + esc(a.place) : "") + "</span>" +
-            '<span class="a-meta"><span class="a-count">' + (n ? n + " photo" + (n === 1 ? "" : "s") : "gathering now") + "</span></span>" +
-            '<span class="a-links">' + links + "</span></button>"
-          );
+        ALBUMS = (data.albums || []).filter(function (a) { return !a.hidden; });
+        var tabs = document.getElementById("album-tabs");
+        if (!ALBUMS.length) { tabs.innerHTML = ""; document.getElementById("album-stage").innerHTML = '<p class="lede">The albums are still being gathered — check back soon.</p>'; return; }
+        tabs.innerHTML = ALBUMS.map(function (a) {
+          return '<button type="button" class="album-tab" data-album="' + esc(a.id) + '" role="tab"><i class="ph-fill ' + esc(a.icon || "ph-images") + '"></i> ' + esc(a.title) + "</button>";
         }).join("");
-        // Album cards with photos open the lightbox; cards without link onward.
-        grid.querySelectorAll(".album-card").forEach(function (card) {
-          var a = albums.filter(function (x) { return x.id === card.getAttribute("data-album"); })[0];
-          var n = (a.photos || []).length;
-          if (!n) return; // no photos yet: the links inside do the work
-          var photos = (a.photos || []).map(function (p) { return { src: "https://psychedelicsinrecovery.github.io/gallery/" + (p.src || ""), caption: p.caption || "", credit: p.credit || "" }; });
-          card.addEventListener("click", function (e) {
-            if (e.target.closest("a")) return; // links behave as links
-            lbOpen(photos, 0);
-          });
+        tabs.querySelectorAll(".album-tab").forEach(function (t) {
+          t.addEventListener("click", function () { selectAlbum(t.getAttribute("data-album"), false); });
         });
+        selectAlbum(ALBUMS[0].id, false);
+        wallChip();
       })
       .catch(function () {
-        document.getElementById("album-grid").innerHTML = '<p class="lede">The album list could not be loaded just now — the <a href="https://psychedelicsinrecovery.github.io/gallery/">full gallery</a> is a click away.</p>';
+        document.getElementById("album-stage").innerHTML = '<p class="lede">The album list could not be loaded just now — the <a href="https://psychedelicsinrecovery.github.io/gallery/">full gallery</a> is a click away.</p>';
       });
+    // A wall tile hands you to its album below.
+    document.querySelectorAll(".conv-tile").forEach(function (t) {
+      var go = function () { selectAlbum(t.getAttribute("data-album"), true); };
+      t.addEventListener("click", go);
+      t.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
   </script>
 </Base>
