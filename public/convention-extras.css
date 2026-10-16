@@ -9,7 +9,8 @@
 
 /* Anchor jumps stop short of the fixed navbar; the gallery hero keeps its welcome tight. */
 html { scroll-padding-top: 5.5rem; }
-.pir-conv .hero-gallery { padding: clamp(1.8rem, 4vw, 3rem) 0 1.2rem; }
+.pir-conv .hero-gallery { padding: clamp(1.8rem, 4vw, 3rem) 0 1.2rem; min-height: 0; }
+.pir-conv .hero-gallery > .scroll-cue { position: static; transform: none; margin: 0.1rem auto 0.5rem; }
 
 /* The kit footer: four groups on one row (the 11.5rem minimum wrapped About). */
 .arr-foot-groups { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
