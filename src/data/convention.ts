@@ -69,7 +69,9 @@ export const days = [
 ];
 
 // What happened, in plain words. Grows as the write-ups land in the AstroLog.
-export const highlights = [
+type Highlight = { icon: string; title: string; body: string; link?: { href: string; label: string } };
+
+export const highlights: Highlight[] = [
   {
     icon: "cake",
     title: "Ten years, and the first time in one room",
@@ -83,7 +85,8 @@ export const highlights = [
   {
     icon: "video-camera",
     title: "The whole convention was streamed",
-    body: "Every main-session day was streamed to the PIR® YouTube channel so members at home could sit in the circle. The recordings live on the Live Stream page.",
+    body: "Every main-session day was streamed to the PIR® YouTube channel so members at home could sit in the circle. The recordings live on the channel.",
+    link: { href: "https://www.youtube.com/@Psychedelicsinrecovery", label: "Watch the recordings on YouTube" },
   },
   {
     icon: "hand-heart",
