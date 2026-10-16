@@ -1,8 +1,9 @@
 ---
 // Every Convention page. Built on the same pattern as the AstroLog: PIR's shared arrival kit and
 // A.L.E.X. design system are loaded from the hub, this site's own layer is /convention.css, and
-// /convention-chrome.css carries the unscoped chrome (the header, footer, dock and starfield
-// canvas live outside .pir-conv). window.ARRIVAL_SITE registers this site's name/what with the kit.
+// /convention-chrome.css + /convention-extras.css carry the unscoped chrome (the header, footer,
+// dock and starfield canvas live outside .pir-conv). window.ARRIVAL_SITE registers this site's
+// name/what with the kit.
 interface Props {
   title: string;
   description: string;
@@ -75,14 +76,24 @@ const current = active && active !== "lost" ? active : undefined;
     <link rel="stylesheet" href={`${ALEX}/alex.css`} />
     <link rel="stylesheet" href={`${base}/convention.css?v=3`} />
     <link rel="stylesheet" href={`${base}/convention-chrome.css?v=3`} />
+    <link rel="stylesheet" href={`${base}/convention-extras.css?v=1`} />
     <script is:inline>
       // The thin scroll-progress line under the header.
       addEventListener("scroll", function () {
         var d = document.documentElement, p = document.querySelector(".progress");
         if (p) p.style.width = Math.round((d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight)) * 100) + "%";
+        var c = document.querySelector(".scroll-cue");
+        if (c) c.style.opacity = d.scrollTop > 80 ? "0" : "1";
       }, { passive: true });
       var p0 = document.querySelector(".progress");
       if (p0) p0.style.width = "0%";
+      var hero = document.querySelector(".pir-conv .hero");
+      if (hero && !hero.querySelector(".scroll-cue")) {
+        var cue = document.createElement("div");
+        cue.className = "scroll-cue";
+        cue.innerHTML = '<i class="ph-fill ph-caret-down" aria-hidden="true"></i><small>scroll</small>';
+        hero.appendChild(cue);
+      }
       document.querySelectorAll(".brand-drop").forEach(function (d) {
         d.addEventListener("toggle", function () { if (d.open) d.classList.add("seen"); });
       });
@@ -95,7 +106,6 @@ const current = active && active !== "lost" ? active : undefined;
   </head>
   <body class={pageClass}>
     <a class="skip" href="#main">Skip to content</a>
-    <div class="progress" aria-hidden="true"></div>
     <canvas id="starfield-canvas" aria-hidden="true"></canvas>
     <header class="top">
       <div class="wrap">
@@ -104,7 +114,7 @@ const current = active && active !== "lost" ? active : undefined;
             <img src={`${base}/favicon.svg`} alt="" width="34" height="34" />
             <span class="arr-brand-text"><span class="word">Convention</span> <small>PIR®</small></span>
             <i class="ph-fill ph-caret-down" aria-hidden="true"></i>
-            <span class="tap-hint">click me 1st</span>
+            <span class="tap-hint">Neighborhood Nav</span>
           </summary>
           <div class="brand-menu">
             <a href={`${base}/`}><i class="ph-fill ph-confetti"></i> Overview</a>
@@ -122,6 +132,7 @@ const current = active && active !== "lost" ? active : undefined;
         <arrival-nav current={current}></arrival-nav>
         <arrival-controls></arrival-controls>
       </div>
+      <div class="progress" aria-hidden="true"></div>
     </header>
 
     <main id="main">
