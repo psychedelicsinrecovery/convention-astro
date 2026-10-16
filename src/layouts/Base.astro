@@ -76,7 +76,7 @@ const current = active && active !== "lost" ? active : undefined;
     <link rel="stylesheet" href={`${ALEX}/alex.css`} />
     <link rel="stylesheet" href={`${base}/convention.css?v=3`} />
     <link rel="stylesheet" href={`${base}/convention-chrome.css?v=3`} />
-    <link rel="stylesheet" href={`${base}/convention-extras.css?v=1`} />
+    <link rel="stylesheet" href={`${base}/convention-extras.css?v=2`} />
     <script is:inline>
       // The thin scroll-progress line under the header.
       addEventListener("scroll", function () {
@@ -87,13 +87,16 @@ const current = active && active !== "lost" ? active : undefined;
       }, { passive: true });
       var p0 = document.querySelector(".progress");
       if (p0) p0.style.width = "0%";
-      var hero = document.querySelector(".pir-conv .hero");
-      if (hero && !hero.querySelector(".scroll-cue")) {
-        var cue = document.createElement("div");
-        cue.className = "scroll-cue";
-        cue.innerHTML = '<i class="ph-fill ph-caret-down" aria-hidden="true"></i><small>scroll</small>';
-        hero.appendChild(cue);
-      }
+      // The hero scroll cue appears once the DOM exists, not while the head is still parsing.
+      document.addEventListener("DOMContentLoaded", function () {
+        var hero = document.querySelector(".pir-conv .hero");
+        if (hero && !hero.querySelector(".scroll-cue")) {
+          var cue = document.createElement("div");
+          cue.className = "scroll-cue";
+          cue.innerHTML = '<i class="ph-fill ph-caret-down" aria-hidden="true"></i><small>scroll</small>';
+          hero.appendChild(cue);
+        }
+      });
       document.querySelectorAll(".brand-drop").forEach(function (d) {
         d.addEventListener("toggle", function () { if (d.open) d.classList.add("seen"); });
       });
