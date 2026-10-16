@@ -2,9 +2,11 @@
    cascade (this sheet loads after convention-chrome.css) does the overriding cleanly. */
 
 /* A.L.E.X. styles .hero as its own two-column grid, which parked the wrap in a narrow
-   left column (the left-offset hero). The Convention hero is a plain centered block. */
+   left column (the left-offset hero). The Convention hero is a plain centered block,
+   and the h1/lede (max-width 20ch/62ch, no auto margins) center their boxes too. */
 .pir-conv .hero { position: relative; display: block; }
 .pir-conv .hero .wrap { margin-inline: auto; }
+.pir-conv .hero h1, .pir-conv .hero .lede { margin-inline: auto; }
 
 /* The scroll-progress line hugs the BOTTOM of the navbar now (Base puts the div inside the header). */
 .progress { position: absolute; top: auto; bottom: -1px; left: 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg, #e8b45a, #a78bfa); }
