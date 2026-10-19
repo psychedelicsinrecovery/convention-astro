@@ -196,3 +196,11 @@ html { scroll-padding-top: 5.5rem; }
 .pir-conv .hero-home > .conv-marquee { position: absolute; left: 0; right: 0; bottom: -2rem; margin: 0; z-index: 5; }
 .pir-conv .conv-marquee-label { display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #e8b45a; padding: 0.2rem 0 0.5rem; }
 @media (max-width: 720px) { .pir-conv .hero-home > .wrap { padding-bottom: 11rem; } .pir-conv .hero-home > .conv-marquee { bottom: -1rem; } }
+
+/* ============================================================
+   2026-10-19 - fifth pass: the marquee sits fully in view
+   ============================================================ */
+/* Slightly smaller tiles, and the marquee tucked just inside the
+   hero floor so nothing hides behind the bottom neighborhood nav. */
+.pir-conv .conv-tile.yt-tile { width: 264px; }
+.pir-conv .hero-home > .conv-marquee { bottom: 0.6rem; }
