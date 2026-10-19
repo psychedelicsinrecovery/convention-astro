@@ -204,3 +204,12 @@ html { scroll-padding-top: 5.5rem; }
    hero floor so nothing hides behind the bottom neighborhood nav. */
 .pir-conv .conv-tile.yt-tile { width: 264px; }
 .pir-conv .hero-home > .conv-marquee { bottom: 0.6rem; }
+
+/* ============================================================
+   2026-10-19 - sixth pass: the marquee clears the bottom nav
+   ============================================================ */
+/* The wrap reserves a little less room, and the marquee rides
+   just above the neighborhood nav - the full tile face shows. */
+.pir-conv .hero-home > .wrap { padding-bottom: 11rem; }
+.pir-conv .hero-home > .conv-marquee { bottom: 3.9rem; }
+@media (max-width: 720px) { .pir-conv .hero-home > .wrap { padding-bottom: 9rem; } .pir-conv .hero-home > .conv-marquee { bottom: 2.5rem; } }
