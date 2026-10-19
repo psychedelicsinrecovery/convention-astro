@@ -1,3 +1,11 @@
+// The 2026 recording rasters, drawn in Anne's pixel-art style. The shelf copies live
+// in /assets (repo root, for the fellowship to browse); these imports pick them up at
+// build time and emit optimized hashed copies. The Steps Workshop raster joins
+// the moment its PNG lands on the shelf - one drag-and-drop, one import line.
+import ytOpening from "../../assets/images_2026-10-19_12.22AM/generated_c7d13309-13e4-43ee-9790-f802edebfb58.png";
+import ytJourneys from "../../assets/images_2026-10-19_12.22AM/generated_d2f3f399-5dd2-4d77-8c41-96b6c16bb39f.png";
+import ytRecovery from "../../assets/images_2026-10-19_12.22AM/generated_f46da384-4406-4d41-bb91-cc39bd152bd6.png";
+
 // The facts of PIR®'s Inaugural Convention, kept in one place so every page tells the same story.
 // Sources: psychedelicsinrecovery.org/convention-2026/, the schedule page, and the service site.
 
@@ -7,6 +15,17 @@ export const HUB = "https://psychedelicsinrecovery.github.io";
 export const GALLERY_REPO = HUB + "/gallery";
 export const PIXIESET =
   "https://pir68.pixieset.com/psychedelicsinrecoverytminauguralconventiondenver2026/";
+
+// The 2026 recordings: one raster per session, drawn in Anne's pixel-art style
+// (sunset over the mountains, the eye-in-diamond). The playlist link is a
+// placeholder until the Convention playlist lands - it points at the channel.
+export const ytPlaylist = "https://www.youtube.com/@Psychedelicsinrecovery";
+export const ytVideos = [
+  { id: "2CsPW-uXONA", title: "Opening Ceremony", blurb: "Ten years, one room, the circle opens", img: ytOpening },
+  { id: "n-idVze5SvI", title: "PATA Film: Journeys", blurb: "A film for the circle, by the fellowship", img: ytJourneys },
+  { id: "02lXUtyqIWY", title: "Defining Your Own Recovery", blurb: "What recovery means when you define it yourself", img: ytRecovery },
+  // { id: "re04M3N0Q9Y", title: "Steps Workshop", blurb: "The Steps, taken together", img: <add when the shelf PNG lands> },
+];
 
 export const convention = {
   title: "The Inaugural PIR® Convention",
@@ -69,7 +88,7 @@ export const days = [
 ];
 
 // What happened, in plain words. Grows as the write-ups land in the AstroLog.
-type Highlight = { icon: string; title: string; body: string; link?: { href: string; label: string } };
+type Highlight = { icon: string; title: string; body: string; link?: { href: string; label: string }; more?: { href: string; label: string }[] };
 
 export const highlights: Highlight[] = [
   {
@@ -87,6 +106,7 @@ export const highlights: Highlight[] = [
     title: "The whole convention was streamed",
     body: "Every main-session day was streamed to the PIR® YouTube channel so members at home could sit in the circle. The recordings live on the channel.",
     link: { href: "https://www.youtube.com/@Psychedelicsinrecovery", label: "Watch the recordings on YouTube" },
+    more: [{ href: ytPlaylist, label: "Jump to the Convention playlist" }],
   },
   {
     icon: "hand-heart",

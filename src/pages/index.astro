@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { convention, days, highlights, links } from "../data/convention";
+import { convention, days, highlights, links, ytVideos } from "../data/convention";
 
 const wayCards = [links.landing, links.schedule, links.liveStream, links.pixieset, links.committee, links.astrolog];
 ---
@@ -11,7 +11,7 @@ const wayCards = [links.landing, links.schedule, links.liveStream, links.pixiese
   active="overview"
 >
   <div class="pir-conv">
-    <section class="hero">
+    <section class="hero hero-home">
       <div class="wrap">
         <span class="kicker"><i class="ph-fill ph-confetti"></i> The gatherings of PIR® · Denver 2026</span>
         <h1>The Inaugural PIR® Convention</h1>
@@ -32,6 +32,26 @@ const wayCards = [links.landing, links.schedule, links.liveStream, links.pixiese
           <a class="btn" href={links.liveStream.href} target="_blank" rel="noopener"><i class="ph-fill ph-video-camera"></i> Watch the sessions</a>
         </div>
       </div>
+      {/* The recordings marquee: click a tile, watch the session. Rasters in Anne's pixel style. */}
+      <div class="conv-marquee yt-marquee" aria-label="Recordings from the 2026 Convention on YouTube">
+        <div class="conv-marquee-label"><i class="ph-fill ph-youtube-logo"></i> Fresh from the channel: the 2026 recordings</div>
+        <div class="conv-track">
+          {ytVideos.map((v) => (
+            <a class="conv-tile yt-tile" href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener" aria-label={`${v.title} - watch on YouTube`}>
+              <img src={v.img} alt={`${v.title} - PIR® Denver 2026`} loading="lazy" />
+              <span class="yt-play" aria-hidden="true"><i class="ph-fill ph-play"></i></span>
+              <figcaption><b>{v.title}</b><br />{v.blurb} <i class="ph-fill ph-play"></i></figcaption>
+            </a>
+          ))}
+          {ytVideos.map((v) => (
+            <a class="conv-tile yt-tile" href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener" aria-hidden="true" tabindex={-1}>
+              <img src={v.img} alt="" loading="lazy" />
+              <span class="yt-play" aria-hidden="true"><i class="ph-fill ph-play"></i></span>
+              <figcaption><b>{v.title}</b><br />{v.blurb} <i class="ph-fill ph-play"></i></figcaption>
+            </a>
+          ))}
+        </div>
+      </div>
     </section>
 
     <section class="band">
@@ -48,6 +68,11 @@ const wayCards = [links.landing, links.schedule, links.liveStream, links.pixiese
                   {h.link.label} <i class="ph-fill ph-arrow-up-right"></i>
                 </a>
               )}
+              {h.more && h.more.map((m) => (
+                <a class="hl-link" href={m.href} target="_blank" rel="noopener">
+                  {m.label} <i class="ph-fill ph-list-music"></i>
+                </a>
+              ))}
             </article>
           ))}
         </div>
