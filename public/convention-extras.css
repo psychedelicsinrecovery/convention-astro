@@ -225,3 +225,10 @@ html { scroll-padding-top: 5.5rem; }
 .pir-conv .hero-home .hero-cta { margin-top: 0.2rem; }
 .pir-conv .conv-tile.yt-tile { width: 235px; }
 .pir-conv .hero-home > .conv-marquee { bottom: 0.6rem; }
+
+/* ============================================================
+   2026-10-19 - eighth pass: center the marquee tiles
+   ============================================================ */
+/* The conv-track (ALEX's kit) flexes left by default; centering
+   puts the row of session tiles in the middle of the hero floor. */
+.pir-conv .yt-marquee .conv-track { justify-content: center; }
