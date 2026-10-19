@@ -163,3 +163,22 @@ html { scroll-padding-top: 5.5rem; }
 .pir-conv .conv-tile.yt-tile .yt-play i { font-size: 1.5rem; color: #fff; background: rgba(196, 30, 8, 0.85); border-radius: 10px; padding: 0.5rem 0.65rem; opacity: 0.92; transition: opacity 0.18s ease, transform 0.18s ease; }
 .pir-conv .conv-tile.yt-tile:hover .yt-play i { transform: scale(1.08); opacity: 1; }
 .pir-conv .conv-tile.yt-tile figcaption i { font-style: normal; color: #ff6e3c; }
+
+/* ============================================================
+   2026-10-19 - third pass: every hero floors at the viewport
+   ============================================================ */
+/* The events page hero (a plain .hero) joins the floor. */
+.pir-conv .hero:not(.hero-gallery) { display: flex; flex-direction: column; min-height: calc(100svh - 5.5rem); }
+@supports not (min-height: 100svh) { .pir-conv .hero:not(.hero-gallery) { min-height: calc(100vh - 5.5rem); } }
+.pir-conv .hero:not(.hero-gallery) > .wrap { margin-block: auto; }
+.pir-conv .hero:not(.hero-gallery) > .conv-marquee { margin-top: auto; }
+
+/* The gallery-page hero un-compacts and joins the floor too:
+   same height, cue hugging the floor, tiles hanging in the glow. */
+.pir-conv .hero-gallery { min-height: calc(100svh - 5.5rem); }
+@supports not (min-height: 100svh) { .pir-conv .hero-gallery { min-height: calc(100vh - 5.5rem); } }
+.pir-conv .hero-gallery > .scroll-cue { position: absolute; left: 50%; bottom: 1.2rem; transform: translateX(-50%); margin: 0; }
+@media (max-width: 720px) { .pir-conv .hero-gallery { min-height: calc(100svh - 4.2rem); } }
+
+/* The scroll cue hugs the hero floor everywhere (was 4.3rem). */
+.scroll-cue { bottom: 1.2rem; }
