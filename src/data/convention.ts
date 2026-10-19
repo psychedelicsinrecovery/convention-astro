@@ -1,10 +1,10 @@
 // The 2026 recording rasters, drawn in Anne's pixel-art style. The shelf copies live
 // in /assets (repo root, for the fellowship to browse); these imports pick them up at
-// build time and emit optimized hashed copies. The Steps Workshop raster joins
-// the moment its PNG lands on the shelf - one drag-and-drop, one import line.
+// build time and emit optimized hashed copies.
 import ytOpening from "../../assets/images_2026-10-19_12.22AM/generated_c7d13309-13e4-43ee-9790-f802edebfb58.png?url";
 import ytJourneys from "../../assets/images_2026-10-19_12.22AM/generated_d2f3f399-5dd2-4d77-8c41-96b6c16bb39f.png?url";
 import ytRecovery from "../../assets/images_2026-10-19_12.22AM/generated_f46da384-4406-4d41-bb91-cc39bd152bd6.png?url";
+import ytSteps from "../../assets/images_2026-10-19_12.22AM/generated_7e1cc124-6f79-4b25-946a-d74767990f99.png?url";
 
 // The facts of PIR®'s Inaugural Convention, kept in one place so every page tells the same story.
 // Sources: psychedelicsinrecovery.org/convention-2026/, the schedule page, and the service site.
@@ -24,7 +24,7 @@ export const ytVideos = [
   { id: "2CsPW-uXONA", title: "Opening Ceremony", blurb: "Ten years, one room, the circle opens", img: ytOpening },
   { id: "n-idVze5SvI", title: "PATA Film: Journeys", blurb: "A film for the circle, by the fellowship", img: ytJourneys },
   { id: "02lXUtyqIWY", title: "Defining Your Own Recovery", blurb: "What recovery means when you define it yourself", img: ytRecovery },
-  // { id: "re04M3N0Q9Y", title: "Steps Workshop", blurb: "The Steps, taken together", img: <add when the shelf PNG lands> },
+  { id: "re04M3N0Q9Y", title: "Steps Workshop", blurb: "The Steps, taken together", img: ytSteps },
 ];
 
 export const convention = {
