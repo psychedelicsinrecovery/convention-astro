@@ -15,18 +15,20 @@
   color: var(--cv-ink);
 }
 
-.pir-conv .skip {
+.pir-conv .skip,
+body > .skip {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--cv-gold);
+  background: var(--cv-gold, #e8b45a);
   color: #14100a;
   padding: 0.5rem 1rem;
   border-radius: 0 0 10px 0;
   z-index: 100;
   font-weight: 600;
 }
-.pir-conv .skip:focus { left: 0; }
+.pir-conv .skip:focus,
+body > .skip:focus { left: 0; }
 
 .pir-conv .progress {
   position: fixed;

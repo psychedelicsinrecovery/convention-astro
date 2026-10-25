@@ -1,0 +1,74 @@
+/* ── Daybreak: the Convention in PIR's light ─────────────────────────────────
+   The kit sets <html data-theme="light"> when a visitor chooses Daybreak (or "Follow the sky" by
+   day). Until now the kit's chrome turned light while these pages stayed night. This layer gives
+   every Convention surface its Daybreak inks, with every text colour passing WCAG AA on lavender.
+   Photographs (the lightbox, captions over images, the polaroid wall) keep their own dark ground.
+
+   The token block is written by hand; the rules below it are generated from the three night
+   stylesheets by mapping each colour to its Daybreak partner by role (tools/daybreak.py). Regenerate
+   after changing colours there. */
+
+html[data-theme="light"] .pir-conv {
+  --cv-ink: #1c1530;
+  --cv-muted: rgba(28, 21, 48, 0.78);
+  --cv-panel: rgba(91, 51, 184, 0.05);
+  --cv-line: rgba(40, 20, 80, 0.14);
+}
+
+html[data-theme="light"] .pir-conv .brand small { color: #85560c; }
+html[data-theme="light"] .pir-conv .kicker { color: #85560c; }
+html[data-theme="light"] .pir-conv .fact i { color: #85560c; }
+html[data-theme="light"] .pir-conv .band-head a { color: #85560c; }
+html[data-theme="light"] .pir-conv .hl i { color: #85560c; }
+html[data-theme="light"] .pir-conv .day .d-date { color: #5b33b8; }
+html[data-theme="light"] .pir-conv .day .d-label { color: #85560c; }
+html[data-theme="light"] .pir-conv .day .pdf i { color: #85560c; }
+html[data-theme="light"] .pir-conv .way i { color: #85560c; }
+html[data-theme="light"] .pir-conv .event .e-kind { color: #5b33b8; }
+html[data-theme="light"] .pir-conv .event .e-when { color: #85560c; }
+html[data-theme="light"] .pir-conv .tended b { color: #85560c; }
+html[data-theme="light"] .pir-conv .dock { background: rgba(247, 244, 253, 0.85); }
+html[data-theme="light"] .pir-conv .dock .mark { color: #85560c; }
+html[data-theme="light"] header.top { background: rgba(247, 244, 253, 0.85); border-bottom: 1px solid rgba(40, 20, 80, 0.12); }
+html[data-theme="light"] .brand { color: #1c1530; }
+html[data-theme="light"] .brand small { color: #85560c; }
+html[data-theme="light"] footer { border-top: 1px solid rgba(40, 20, 80, 0.12); color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] .tended { color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] .tended b { color: #85560c; }
+html[data-theme="light"] nav.dock { background: rgba(247, 244, 253, 0.85); border-top: 1px solid rgba(40, 20, 80, 0.12); }
+html[data-theme="light"] nav.dock .mark { color: #85560c; }
+html[data-theme="light"] nav.dock a { color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] nav.dock a:hover { color: #1c1530; background: rgba(40, 20, 80, 0.05); }
+html[data-theme="light"] .pir-conv .conv-marquee { border-block: 1px solid rgba(40, 20, 80, 0.12); background: rgba(40, 20, 80, 0.03); }
+html[data-theme="light"] .pir-conv .conv-marquee-label { color: #85560c; }
+html[data-theme="light"] .pir-conv .conv-marquee-note { color: rgba(28, 21, 48, 0.67); }
+html[data-theme="light"] .pir-conv .conv-tile { border: 1px solid rgba(40, 20, 80, 0.12); }
+html[data-theme="light"] .brand-drop summary .ph-caret-down { color: #85560c; }
+html[data-theme="light"] .brand-menu { border: 1px solid rgba(40, 20, 80, 0.12); background: rgba(247, 244, 253, 0.97); }
+html[data-theme="light"] .brand-menu a { color: #1c1530; }
+html[data-theme="light"] .brand-menu a:hover { background: rgba(40, 20, 80, 0.06); color: #85560c; }
+html[data-theme="light"] .brand-menu a i { color: #85560c; }
+html[data-theme="light"] .scroll-cue { color: #85560c; }
+html[data-theme="light"] .mar-btn { border: 1px solid rgba(40, 20, 80, 0.18); background: rgba(40, 20, 80, 0.05); color: #1c1530; }
+html[data-theme="light"] .mar-btn:hover { color: #85560c; }
+html[data-theme="light"] .mar-dot { background: rgba(40, 20, 80, 0.25); }
+html[data-theme="light"] .mar-count { color: rgba(28, 21, 48, 0.67); }
+html[data-theme="light"] .pir-conv .album-card { border: 1px solid rgba(40, 20, 80, 0.12); background: rgba(40, 20, 80, 0.05); }
+html[data-theme="light"] .pir-conv .album-card .a-icon { color: #85560c; }
+html[data-theme="light"] .pir-conv .album-card h3 { color: #1c1530; }
+html[data-theme="light"] .pir-conv .album-card .a-meta { color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] .pir-conv .album-card .a-count { color: #85560c; }
+html[data-theme="light"] .pir-conv .album-card .a-links a { color: #1c1530; border: 1px solid rgba(40, 20, 80, 0.12); }
+html[data-theme="light"] .pir-conv .album-card .a-links a.s-ghost:hover { color: #85560c; }
+html[data-theme="light"] .pir-conv .wall-chip { color: #85560c; }
+html[data-theme="light"] .pir-conv .album-tab { color: #1c1530; background: rgba(40, 20, 80, 0.05); border: 1px solid rgba(40, 20, 80, 0.14); }
+html[data-theme="light"] .pir-conv .album-stage { border: 1px solid rgba(40, 20, 80, 0.12); background: rgba(40, 20, 80, 0.04); }
+html[data-theme="light"] .pir-conv .stage-head h3 { color: #1c1530; }
+html[data-theme="light"] .pir-conv .stage-head .a-meta { color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] .pir-conv .stage-grid .thumb { border: 1px solid rgba(40, 20, 80, 0.12); }
+html[data-theme="light"] .pir-conv .stage-empty { color: rgba(28, 21, 48, 0.78); }
+html[data-theme="light"] .pir-conv .stage-empty .a-links a { color: #1c1530; border: 1px solid rgba(40, 20, 80, 0.14); }
+html[data-theme="light"] .hl .hl-link { color: #85560c; }
+html[data-theme="light"] .pir-conv .hero-facts .fact:nth-child(1) i { color: #85560c; }
+html[data-theme="light"] .pir-conv .hero-facts .fact:nth-child(3) i { color: #5b33b8; }
+html[data-theme="light"] .pir-conv .conv-marquee-label { color: #85560c; }
