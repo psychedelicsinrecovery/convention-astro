@@ -1,0 +1,27 @@
+# Dependabot keeps this repo's dependencies current, in a gentle monthly trickle.
+# Security fixes don't wait for this schedule: with alerts on (Settings → Code security), Dependabot
+# opens a fix as soon as a vulnerability is published.
+#   - minor and patch updates arrive together in one pull request
+#   - major updates arrive together in a second one. Test it before merging: a major can break the
+#     build (TypeScript 7 broke typescript-eslint in October 2026)
+#   - GitHub Actions versions arrive together in one pull request
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+      majors:
+        update-types: ["major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]
