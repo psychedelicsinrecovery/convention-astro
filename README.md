@@ -1,4 +1,25 @@
+<!-- readme-standard: 2026-11-02 -->
+<div align="center">
+
+<img src="assets/banner.svg" width="100%" alt="The PIR Convention site: a road of four stops lights in order, one for each of the four days in Denver.">
+
 # 🎪 convention-astro — the PIR® Convention site
+
+*The home of PIR®'s conventions, cross-linked with the WordPress hub.*
+
+[![Live](https://img.shields.io/badge/Live-convention--astro-7c3aed?style=flat-square)](https://psychedelicsinrecovery.github.io/convention-astro/)
+[![Licence](https://img.shields.io/badge/Licence-see_LICENSE-3b1f6e?style=flat-square)](./LICENSE)
+![For](https://img.shields.io/badge/For-The_fellowship-64748b?style=flat-square)
+
+<img src="assets/icons/map-pin.svg" width="16" height="16" alt=""> **You are here:** PIR® › `convention-astro` · public · `main` is the working branch
+
+</div>
+
+## <img src="assets/icons/compass.svg" width="24" height="24" alt=""> TL;DR
+
+1. <img src="assets/icons/sprout.svg" width="16" height="16" alt=""> **What this is.** The site for PIR®'s conventions: the story of the Inaugural Convention (Denver, October 8-11, 2026), the gallery, and the events record.
+2. <img src="assets/icons/users-round.svg" width="16" height="16" alt=""> **Who it is for.** The fellowship, and anyone looking for a past or upcoming gathering.
+3. <img src="assets/icons/footprints.svg" width="16" height="16" alt=""> **Do this first.** [Open the site](https://psychedelicsinrecovery.github.io/convention-astro/). To work on it: `npm install`, then `npm run dev`. All the facts live in `src/data/convention.ts`.
 
 The home of PIR®'s conventions: **https://psychedelicsinrecovery.github.io/convention-astro/**
 
@@ -61,3 +82,9 @@ Psychedelics In Recovery™ – PIR®. The marks belong to the fellowship.
 ---
 
 *Tended by C.A.T.A.L.Y.S.T., PIR®'s helper fleet.*
+
+## <img src="assets/icons/git-pull-request.svg" width="24" height="24" alt=""> Suggest a change
+
+Noticed something? Open an [issue](https://github.com/psychedelicsinrecovery/convention-astro/issues) or a pull request against `main`; the people who tend it read them and a person with the role merges. Not on GitHub? Type `/techcom` in [PIR®'s Discord](https://discord.gg/MyprTq8w95).
+
+<sub>The front door follows the living [README standard](https://github.com/drasticstatic/my-template/blob/main/README-STANDARD.md). Copy it, improve it.</sub>
